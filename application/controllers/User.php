@@ -6,8 +6,9 @@ class User extends CI_Controller
 	public function index()
 	{
 		$data['title'] = 'Users';
+		$data['users'] = $this->db->get('users')->result();
 		$this->load->view('layout/admin/header', $data);
-		$this->load->view('admin/user/index');
+		$this->load->view('admin/user/index', $data);
 		$this->load->view('layout/admin/footer');
 	}
 }
