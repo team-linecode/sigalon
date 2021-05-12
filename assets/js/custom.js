@@ -1,5 +1,2 @@
 // Datatables
-
-if ($.DataTable) {
-	$(".datatables").DataTable();
-}
+$(".datatables").DataTable();
