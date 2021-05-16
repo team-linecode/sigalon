@@ -61,6 +61,24 @@
 					<span>Users</span>
 				</a>
 			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?= base_url('product') ?>">
+					<i class="fas fa-fw fa-users"></i>
+					<span>Product</span>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?= base_url('supplier') ?>">
+					<i class="fas fa-fw fa-users"></i>
+					<span>Supplier</span>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?= base_url('payment_method') ?>">
+					<i class="fas fa-fw fa-users"></i>
+					<span>Metode Pembayaran</span>
+				</a>
+			</li>
 
 			<li class="nav-item">
 				<a class="nav-link" href="<?= base_url('supplier') ?>">

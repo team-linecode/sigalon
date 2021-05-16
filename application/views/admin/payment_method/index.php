@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label for="">Tipe Pembayaran</label>
                         <select name="type" id="type" class="custom-select">
-                            <option value="">Pilih Tipe Pembayaran</option>
+                            <option value="" hidden>Pilih Tipe Pembayaran</option>
                             <option value="transfer">Transfer</option>
                             <option value="cod">Bayar di Tempat</option>
                         </select>
