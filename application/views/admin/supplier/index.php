@@ -9,21 +9,21 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Name</label>
+                                <label for="">Nama Suplier</label>
                                 <input type="text" class="form-control" name="name" id="name">
                                 <?= form_error('name', '<small class="text-danger">', '</small>') ?>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Address</label>
+                                <label for="">Alamat</label>
                                 <input type="text" class="form-control" name="address" id="address">
                                 <?= form_error('address', '<small class="text-danger">', '</small>') ?>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Kontak Person</label>
+                                <label for="">Nama Kontak</label>
                                 <input type="text" class="form-control" name="contact" id="contact">
                                 <?= form_error('contact', '<small class="text-danger">', '</small>') ?>
                             </div>
@@ -32,21 +32,21 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Nomor Hanphone</label>
+                                <label for="">Nomor Handphone</label>
                                 <input type="number" class="form-control" name="phone" id="phone">
                                 <?= form_error('phone', '<small class="text-danger">', '</small>') ?>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Price/Tanki</label>
+                                <label for="">Harga/Tanki</label>
                                 <input type="number" class="form-control" name="price" id="price">
                                 <?= form_error('price', '<small class="text-danger">', '</small>') ?>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Liter/Tanki</label>
+                                <label for="">Jumlah Liter/Tanki</label>
                                 <input type="number" class="form-control" name="liter" id="liter">
                                 <?= form_error('liter', '<small class="text-danger">', '</small>') ?>
                             </div>
