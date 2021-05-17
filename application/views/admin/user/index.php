@@ -10,22 +10,22 @@
 						<div class="form-group">
 							<label>Nama</label>
 							<input type="text" class="form-control" name="name" value="<?= set_value('name') ?>">
-							<?php echo form_error('name', '<small class="text-danger">', '</small>'); ?>
+							<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
 						</div>
 						<div class="form-group">
 							<label>Username</label>
 							<input type="text" class="form-control" name="username" value="<?= set_value('username') ?>">
-							<?php echo form_error('username', '<small class="text-danger">', '</small>'); ?>
+							<?= form_error('username', '<small class="text-danger">', '</small>'); ?>
 						</div>
 						<div class="form-group">
 							<label>Password</label>
 							<input type="password" class="form-control" name="password">
-							<?php echo form_error('password', '<small class="text-danger">', '</small>'); ?>
+							<?= form_error('password', '<small class="text-danger">', '</small>'); ?>
 						</div>
 						<div class="form-group">
 							<label>No. Telepon</label>
 							<input type="text" class="form-control" name="phone" value="<?= set_value('phone') ?>">
-							<?php echo form_error('password', '<small class="text-danger">', '</small>'); ?>
+							<?= form_error('password', '<small class="text-danger">', '</small>'); ?>
 						</div>
 						<div class="form-group">
 							<label>Level</label>
@@ -34,7 +34,7 @@
 								<option value="Admin" <?= set_value('level') == 'Admin' ? 'selected' : '' ?>>Admin</option>
 								<option value="Customer" <?= set_value('level') == 'Customer' ? 'selected' : '' ?>>Customer</option>
 							</select>
-							<?php echo form_error('level', '<small class="text-danger">', '</small>'); ?>
+							<?= form_error('level', '<small class="text-danger">', '</small>'); ?>
 						</div>
 
 						<div class="d-flex justify-content-end">

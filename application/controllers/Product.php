@@ -58,7 +58,7 @@ class Product extends CI_Controller
             ];
 
             $this->db->update('suppliers', $data);
-            redirect('supplier/index');
+            redirect('supplier');
         }
     }
 
@@ -66,7 +66,7 @@ class Product extends CI_Controller
     {
         $this->db->where('id', $id);
         $this->db->delete('suppliers');
-        redirect('supplier/index');
+        redirect('supplier');
     }
 
     public function get_supplier()

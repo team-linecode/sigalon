@@ -13,20 +13,20 @@
 						<div class="col-lg-6">
 							<div style="padding: 9rem 3rem">
 								<div class="text-center mb-5">
-									<h1 class="h4 text-primary font-weight-bold">BAROKAH GALON</h1>
+									<h1 class="h4 text-primary font-weight-bold">SIGALON</h1>
 									<P>Jual dan isi ulang galon harga termurah.</P>
 								</div>
-								<form class="user">
+								<form action="<?= base_url('auth') ?>" method="POST" class="user">
 									<div class="form-group">
-										<input type="email" class="form-control form-control-user" placeholder="Enter Username">
+										<input type="text" class="form-control form-control-user" name="username" placeholder="Masukkan Username">
+										<?= form_error('username', '<small class="text-danger pl-3">', '</small>'); ?>
 									</div>
 									<div class="form-group">
-										<input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+										<input type="password" class="form-control form-control-user" name="password" placeholder="Password">
+										<?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
 									</div>
 
-									<a href="index.html" class="btn btn-primary btn-user btn-block">
-										Login
-									</a>
+									<button class="btn btn-primary btn-user btn-block">Masuk</button>
 								</form>
 							</div>
 						</div>

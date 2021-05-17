@@ -9,21 +9,21 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Nama Produk</label>
+                                <label>Nama Produk</label>
                                 <input type="text" class="form-control" name="name" id="name">
                                 <?= form_error('name', '<small class="text-danger">', '</small>') ?>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Harga</label>
+                                <label>Harga</label>
                                 <input type="number" class="form-control" name="price" id="price">
                                 <?= form_error('price', '<small class="text-danger">', '</small>') ?>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Suplier</label>
+                                <label>Suplier</label>
                                 <select name="id_supplier" id="id_supplier" class="custom-select">
                                     <option value="" hidden>Pilih Supplier</option>
                                     <?php foreach ($suppliers as $row) { ?>
@@ -37,19 +37,19 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Nomor Handphone</label>
+                                <label>Nomor Handphone</label>
                                 <input type="number" class="form-control" name="phone" id="phone">
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Harga/Tanki</label>
+                                <label>Harga/Tanki</label>
                                 <input type="number" class="form-control" name="pricea" id="pricae">
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="">Jumlah Liter/Tanki</label>
+                                <label>Jumlah Liter/Tanki</label>
                                 <input type="number" class="form-control" name="liter" id="liter">
                             </div>
                         </div>
