@@ -15,7 +15,7 @@ class Product extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Barang';
-            $data['products'] = $this->db->select('*')->from('products')->join('suppliers', 'products.id_supplier = suppliers.id')->get()->result();
+            $data['products'] = $this->db->query('SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id')->result();
             $data['suppliers'] = $this->db->get('suppliers')->result();
             $this->load->view('layout/admin/header', $data);
             $this->load->view('admin/product/index');
@@ -37,57 +37,48 @@ class Product extends CI_Controller
     public function edit($id)
     {
         $name = $this->input->post('name');
-        $address = $this->input->post('address');
+        $id_supplier = $this->input->post('id_supplier');
         $price = $this->input->post('price');
+        $status = $this->input->post('status');
 
         $this->form_validation->set_rules('name', 'Name', 'required');
-        $this->form_validation->set_rules('address', 'Address', 'required');
+        $this->form_validation->set_rules('id_supplier', 'Supplier', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
         $this->form_validation->set_rules('price', 'Price', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Supplier';
-            $data['suppliers'] = $this->db->get_where('suppliers', ['id' => $id])->row();
+            $data['products'] = $this->db->get_where('products', ['id' => $id])->row();
+            $data['suppliers'] = $this->db->get('suppliers')->result();
             $this->load->view('layout/admin/header', $data);
-            $this->load->view('admin/supplier/edit');
+            $this->load->view('admin/product/edit');
             $this->load->view('layout/admin/footer');
         } else {
             $data = [
                 'name' => $name,
-                'address' => $address,
+                'id_supplier' => $id_supplier,
+                'status' => $status,
                 'price' => $price
             ];
 
-            $this->db->update('suppliers', $data);
-            redirect('supplier');
+            $this->db->where('id', $id);
+            $this->db->update('products', $data);
+            redirect('product');
         }
     }
 
     public function delete($id)
     {
         $this->db->where('id', $id);
-        $this->db->delete('suppliers');
-        redirect('supplier');
+        $this->db->delete('products');
+        redirect('product');
     }
 
-    public function get_supplier()
+    public function get_supplier($id)
     {
-        echo '<div class="col-lg-4">
-                <div class="form-group">
-                    <label for="">Nomor Hanphone</label>
-                    <input type="number" class="form-control" name="phone" id="phone">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label for="">Price/Tanki</label>
-                    <input type="number" class="form-control" name="price" id="price">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="form-group">
-                    <label for="">Liter/Tanki</label>
-                    <input type="number" class="form-control" name="liter" id="liter">
-                </div>
-            </div>';
+        $supplier = $this->db->get_where('suppliers', ['id'=> $id])->row();
+		header('Content-Type: application/json');
+		echo json_encode($supplier);
+        var_dump($supplier);
     }
 }
