@@ -24,6 +24,11 @@
 						<?php echo form_error('password', '<small class="text-danger">', '</small>'); ?>
 					</div>
 					<div class="form-group">
+						<label>Alamat</label>
+						<input type="text" class="form-control" name="address" value="<?= $user->address ?>">
+						<?php echo form_error('address', '<small class="text-danger">', '</small>'); ?>
+					</div>
+					<div class="form-group">
 						<label>Level</label>
 						<select name="level" class="custom-select">
 							<option value="">Pilih Level</option>

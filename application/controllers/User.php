@@ -9,6 +9,7 @@ class User extends CI_Controller
 		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[users.username]');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('phone', 'Phone', 'required|is_unique[users.phone]');
+		$this->form_validation->set_rules('address', 'Address', 'required');
 		$this->form_validation->set_rules('level', 'Level', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
@@ -24,6 +25,7 @@ class User extends CI_Controller
 				'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 				'nohash' => $this->input->post('password'),
 				'phone' => $this->input->post('phone'),
+				'address' => $this->input->post('address'),
 				'level' => $this->input->post('level')
 			];
 
@@ -38,6 +40,7 @@ class User extends CI_Controller
 		$this->form_validation->set_rules('username', 'Username', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('phone', 'Phone', 'required');
+		$this->form_validation->set_rules('address', 'Address', 'required');
 		$this->form_validation->set_rules('level', 'Level', 'required');
 
 		if ($this->form_validation->run() == FALSE) {
@@ -65,6 +68,7 @@ class User extends CI_Controller
 				'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 				'nohash' => $this->input->post('password'),
 				'phone' => $this->input->post('phone'),
+				'address' => $this->input->post('address'),
 				'level' => $this->input->post('level')
 			];
 

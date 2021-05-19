@@ -28,6 +28,11 @@
 							<?= form_error('password', '<small class="text-danger">', '</small>'); ?>
 						</div>
 						<div class="form-group">
+						<label>Alamat</label>
+						<input type="text" class="form-control" name="address" value="<?= set_value('address') ?>">
+						<?php echo form_error('address', '<small class="text-danger">', '</small>'); ?>
+					</div>
+						<div class="form-group">
 							<label>Level</label>
 							<select name="level" class="custom-select">
 								<option value="">Pilih Level</option>
@@ -55,6 +60,7 @@
 									<th>Password</th>
 									<th>Level</th>
 									<th>Telepon</th>
+									<th>Alamat</th>
 									<th>Opsi</th>
 								</tr>
 							</thead>
@@ -67,6 +73,7 @@
 										<td><?= $row->nohash ?></td>
 										<td><?= $row->level ?></td>
 										<td><?= $row->phone ?></td>
+										<td><?= $row->address ?></td>
 										<td>
 											<a href="<?= base_url('user/edit/' . $row->id) ?>" class="btn btn-primary btn-sm mb-2">Ubah</a>
 											<a href="<?= base_url('user/delete/' . $row->id) ?>" class="btn btn-danger btn-sm">Hapus</a>
