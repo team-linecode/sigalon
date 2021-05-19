@@ -21,6 +21,10 @@
 	<!-- Custom styles for this template-->
 	<link href="<?= base_url('assets/css/sb-admin-2.min.css') ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/custom.css') ?>" rel="stylesheet">
+	
+	<!-- Sweetalert -->
+	<script src="<?= base_url('assets/vendor/sweetalert2/dist/sweetalert2.all.min.js') ?>"></script>
+
 	<script type="text/javascript">
 		var BASE_URL = "<?= base_url(); ?>";
 	</script>

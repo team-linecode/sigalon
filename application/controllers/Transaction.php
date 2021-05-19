@@ -58,6 +58,8 @@ class Transaction extends CI_Controller
 			}
 
 			$this->db->insert('transactions', $data);
+
+			$this->session->set_flashdata('success', 'Transaksi berhasil dibuat');
 			redirect('transaction');
 		}
 	}
