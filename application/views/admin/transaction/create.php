@@ -8,23 +8,23 @@
 							<div class="form-group">
 								<label>Tipe</label>
 								<select class="custom-select" name="type" id="type">
-									<option hidden>Pilih Tipe</option>
+									<option value="" hidden>Pilih Tipe</option>
 									<option value="in">Barang Masuk</option>
 									<option value="out">Barang Keluar</option>
 								</select>
-								<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
+								<?= form_error('type', '<small class="text-danger">', '</small>'); ?>
 							</div>
 							<div class="form-group">
 								<label>User</label>
 								<select class="custom-select" name="user" id="user" disabled>
-									<option hidden>Pilih User</option>
+									<option value="" hidden>Pilih User</option>
 								</select>
 								<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
 							</div>
 							<div class="form-group">
 								<label>Produk</label>
 								<select class="custom-select" name="product" id="product" disabled>
-									<option hidden>Pilih Produk</option>
+									<option value="" hidden>Pilih Produk</option>
 								</select>
 								<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
 							</div>
@@ -36,21 +36,21 @@
 							<div class="form-group">
 								<label>Metode Pembayaran</label>
 								<select class="custom-select" name="payment_method" id="paymentMethod">
-									<option hidden>Pilih Metode Pembayaran</option>
+									<option value="" hidden>Pilih Metode Pembayaran</option>
 									<?php foreach ($payment_methods as $row) : ?>
 										<option value="<?= $row->id ?>"><?= $row->name ?></option>
 									<?php endforeach ?>
 								</select>
-								<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
+								<?= form_error('payment_method', '<small class="text-danger">', '</small>'); ?>
 							</div>
 							<div class="form-group">
 								<label>Metode Pengiriman</label>
 								<select class="custom-select" name="delivery_method" id="deliveryMethod">
-									<option hidden>Pilih Metode Pengiriman</option>
+									<option value="" hidden>Pilih Metode Pengiriman</option>
 									<option value="Di Jemput">Di Jemput</option>
 									<option value="Di Antar">Di Antar</option>
 								</select>
-								<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
+								<?= form_error('delivery_method', '<small class="text-danger">', '</small>'); ?>
 							</div>
 
 							<div class="d-flex justify-content-end">

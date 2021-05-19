@@ -6,7 +6,7 @@ class Transaction extends CI_Controller
 	public function index()
 	{
 		$data['title'] = 'Transaksi';
-		$data['transactions'] = $this->db->query('SELECT *, products.name as product_name, suppliers.name as supplier_name, users.name as user_name, transactions.status as trx_status, transactions.id as trx_id FROM transactions JOIN products ON transactions.id_product = products.id JOIN suppliers ON products.id_supplier = suppliers.id JOIN users ON transactions.id_user = users.id JOIN payment_methods ON transactions.id_payment_method = payment_methods.id')->result();
+		$data['transactions'] = $this->db->query("SELECT *, products.name as product_name, suppliers.name as supplier_name, suppliers.phone as supplier_phone, suppliers.price as supplier_price, users.name as user_name, transactions.status as trx_status, transactions.id as trx_id, transactions.type as trx_type FROM transactions LEFT JOIN products ON transactions.id_product = products.id LEFT JOIN suppliers ON products.id_supplier = suppliers.id LEFT JOIN users ON transactions.id_user = users.id LEFT JOIN payment_methods ON transactions.id_payment_method = payment_methods.id GROUP BY transactions.id DESC")->result();
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/transaction/index', $data);
 		$this->load->view('layout/admin/footer');
@@ -14,11 +14,14 @@ class Transaction extends CI_Controller
 
 	public function create()
 	{
-		$this->form_validation->set_rules('user', 'Customer', 'required');
+		$this->form_validation->set_rules('type', 'Type', 'required');
+		$this->form_validation->set_rules('user', 'User', 'required');
 		$this->form_validation->set_rules('product', 'Product', 'required');
-		$this->form_validation->set_rules('qty', 'Quantity', 'required');
 		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 		$this->form_validation->set_rules('delivery_method', 'Delivery Method', 'required');
+		if ($this->input->post('type') == 'out') {
+			$this->form_validation->set_rules('qty', 'Quantity', 'required');
+		}
 
 		if ($this->form_validation->run() == FALSE) {
 			$data['title'] = 'Transaksi Baru';
@@ -49,9 +52,9 @@ class Transaction extends CI_Controller
 			];
 
 			if ($type == 'in') {
-				$data['id_user'] = $this->input->post('user');
-			} else {
 				$data['id_supplier'] = $this->input->post('user');
+			} else {
+				$data['id_user'] = $this->input->post('user');
 			}
 
 			$this->db->insert('transactions', $data);
@@ -61,6 +64,20 @@ class Transaction extends CI_Controller
 
 	public function change_status($id, $status)
 	{
+		$trx = $this->db->query("SELECT *, spl.stock as supplier_stock, p.stock as product_stock, p.id as product_id FROM transactions trx JOIN suppliers spl ON trx.id_supplier = spl.id JOIN products p ON trx.id_product = p.id WHERE trx.id = '$id'")->row();
+		
+		if ($status == 'Paid') {
+			if ($trx->type == 'in') {
+				$product_stock = ($trx->product_stock + $trx->supplier_stock);
+				$this->db->set('stock', $product_stock);
+				$this->db->where('id', $trx->product_id);
+				$this->db->update('products');
+			}
+			$this->db->set('paid_at', date('d-m-Y'));
+		} else if ($status == 'Canceled') {
+			$this->db->set('canceled_at', date('d-m-Y'));
+		}
+
 		$this->db->set('status', $status);
 		$this->db->where('id', $id);
 		$this->db->update('transactions');
@@ -70,8 +87,11 @@ class Transaction extends CI_Controller
 
 	public function get_product($id)
 	{
-		$product = $this->db->query("SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
+		$product = $this->db->query("SELECT *, suppliers.name as supplier_name, suppliers.price as supplier_price, products.name as product_name, products.price as product_price, suppliers.stock as supplier_stock FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
 		$product->product_price = number_format($product->product_price);
+		$product->supplier_price = 'Rp ' . number_format($product->supplier_price);
+		$product->supplier_stock = number_format($product->supplier_stock, 0, '.', '.');
+		$product->liter = number_format($product->liter, 0, '.', '.');
 		header('Content-Type: application/json');
 		echo json_encode($product);
 	}
@@ -132,20 +152,18 @@ class Transaction extends CI_Controller
 		if (count($products) < 1) {
 			$attr .= '<option disabled>Tidak ada data.</option>';
 		} else {
-			foreach ($suppliers as $supplier) {
-				if ($type == 'out') {
-					$attr .= '<optgroup label="' . $supplier->name . '">';
-				}
+			if ($type == 'in') {
 				foreach ($products as $product) {
-					if ($type == 'in') {
-						$attr .= '<option value="' . $product->id . '">' . $product->name . '</option>';
-					} else {
+					$attr .= '<option value="' . $product->id . '">' . $product->name . '</option>';
+				}
+			} else {
+				foreach ($suppliers as $supplier) {
+					$attr .= '<optgroup label="' . $supplier->name . '">';
+					foreach ($products as $product) {
 						if ($supplier->id == $product->id_supplier) {
 							$attr .= '<option value="' . $product->product_id . '">' . $product->product_name . '</option>';
 						}
 					}
-				}
-				if ($type == 'out') {
 					$attr .= '</optgroup>';
 				}
 			}

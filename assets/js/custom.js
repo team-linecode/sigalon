@@ -43,6 +43,18 @@ $("#id_supplier").change(function () {
 $('#transaction #type').change(function () {
 	$type = $(this).val();
 
+	if ($type == 'in') {
+		$('#transaction #qty').attr('disabled', 'disabled')
+		$("#transaction #qty").attr('type', 'text').val('1 Tanki')
+
+		$("#transaction #deliveryMethod>option:eq(2)").prop('selected', true)
+		$("#transaction #deliveryMethod>option:eq(1)").attr('hidden', 'hidden')
+		$("#transaction #deliveryMethod").attr('readonly', 'on')
+	} else {
+		$("#transaction #deliveryMethod>option:eq(1)").removeAttr('hidden')
+		$("#transaction #qty").attr('type', 'text').val('')
+	}
+
 	$.ajax({
 		type: "GET",
 		url: BASE_URL + '/transaction/get_user/' + $type,
@@ -56,7 +68,9 @@ $('#transaction #type').change(function () {
 			$('#transaction #product>option:eq(0)').prop('selected', true)
 			$('#transaction #product').attr('disabled', 'disabled')
 
-			$('#transaction #qty').attr('disabled', 'disabled').val('')
+			if ($type == 'out') {
+				$('#transaction #qty').attr('disabled', 'disabled').val('')
+			}
 
 			$('#transaction #productDetail').html('-')
 			$('#transaction #showQty').html(0)
@@ -83,7 +97,6 @@ $('#transaction #user').change(function () {
 		},
 		dataType: 'html',
 		success: function (result) {
-			console.log(result)
 			$('#transaction #product').html(result)
 			$('#transaction #product').removeAttr('disabled')
 		}
@@ -93,46 +106,31 @@ $('#transaction #user').change(function () {
 // Get detail product in transaction
 $('#transaction #product').change(function () {
 	$val = $(this).val();
-	$.ajax({
-		type: "GET",
-		url: BASE_URL + '/transaction/get_product/' + $val,
-		cache: false,
-		dataType: 'json',
-		success: function (result) {
-			$('#transaction #productDetail').html(`
-			Nama : ` + result.product_name + `<br>
-			Supplier : ` + result.supplier_name + `<br>
-			Harga : ` + result.product_price + `
-			`)
-			$("#transaction #qty").attr('max', result.stock)
-			$("#transaction #qty").removeAttr('disabled')
-			console.log('ok');
-		}
-	})
-})
-// Get detail product in transaction
-$('#transaction #product').click(function () {
-	$val = $(this).val();
-	$.ajax({
-		type: "GET",
-		url: BASE_URL + '/transaction/get_product/' + $val,
-		cache: false,
-		dataType: 'json',
-		success: function (result) {
-			$('#transaction #productDetail').html(`
-			Nama : ` + result.product_name + `<br>
-			Supplier : ` + result.supplier_name + `<br>
-			Harga : ` + result.product_price + `
-			`)
-			$("#transaction #qty").attr('max', result.stock)
-			$("#transaction #qty").removeAttr('disabled')
-		}
-	})
-})
+	$type = $("#transaction #type").val();
 
-// Open select product on change customer
-$('#transaction #user').change(function () {
-	$('#transaction #product').removeAttr('disabled')
+	$.ajax({
+		type: "GET",
+		url: BASE_URL + '/transaction/get_product/' + $val,
+		cache: false,
+		dataType: 'json',
+		success: function (result) {
+			if ($type == 'in') {
+				$("#transaction #showQty").html(
+					result.liter + ` Liter => ` + result.supplier_stock + ` Galon`
+				)
+				$("#transaction #total").html(result.supplier_price)
+			}
+			$('#transaction #productDetail').html(`
+				Nama : ` + result.product_name + `<br>
+				Supplier : ` + result.supplier_name + `<br>
+				Harga Satuan : Rp ` + result.product_price + `
+			`)
+			if ($type == 'out') {
+				$("#transaction #qty").attr('max', result.stock)
+				$("#transaction #qty").removeAttr('disabled')
+			}
+		}
+	})
 })
 
 // Get detail payment method
@@ -156,13 +154,6 @@ $('#transaction #paymentMethod').change(function () {
 					Metode : ` + result.name + `
 				`)
 			}
-
-			if ($val == '') {
-				$('#transaction #showQty').html(0)
-			} else {
-				$('#transaction #showQty').html($val)
-			}
-
 		}
 	})
 })

@@ -11,29 +11,33 @@
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Pelanggan</th>
+									<th>No. Faktur</th>
+									<th>User</th>
 									<th>Produk</th>
 									<th class="text-center">Jumlah</th>
 									<th class="text-center">Total (Rp.)</th>
 									<th>Tanggal</th>
+									<th>Tipe</th>
 									<th>Opsi</th>
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach ($transactions as $row) : ?>
+								<?php $no = 1; foreach ($transactions as $row) : ?>
 									<tr>
-										<td><?= $row->no_invoice ?></td>
+										<td><?= $no++ ?></td>
+										<td>#<?= $row->no_invoice ?></td>
 										<td>
-											<?= $row->user_name ?><br>
-											<small class="text-primary"><?= $row->phone ?></small>
+											<?= $row->user_name ?? $row->contact ?><br>
+											<small class="text-primary"><?= $row->phone ?? $row->supplier_phone ?></small>
 										</td>
 										<td>
 											<?= $row->product_name ?><br>
 											<small class="text-primary"><?= $row->supplier_name ?></small>
 										</td>
-										<td class="text-center"><?= $row->qty ?></td>
-										<td class="text-center"><?= number_format($row->total) ?></td>
-										<td><?= date('d F Y', strtotime($row->date)) ?></td>
+										<td class="text-center"><?= $row->qty ?? "1 Tanki<br><small class='text-primary'>" . number_format($row->liter, 0, '.', '.') . " Liter</small>" ?></td>
+										<td class="text-center"><?= $row->total == 0 ? number_format($row->supplier_price) : number_format($row->total) ?></td>
+										<td><?= date('d/m/Y', strtotime($row->date)) ?></td>
+										<td class="<?= $row->trx_type == 'in' ? 'text-success' : 'text-danger' ?>"><?= strtoupper($row->trx_type) ?></td>
 										<td>
 											<a href="<?= base_url('') ?>" class="btn btn-primary btn-sm" title="Cetak Invoice"><i class="fas fa-file-alt"></i></a>
 											<?php if ($row->trx_status == 'Unpaid') : ?>
