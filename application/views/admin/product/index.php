@@ -2,12 +2,12 @@
     <div class="col-lg-12">
         <div class="card shadow border-0">
             <div class="card-header bg-white">
-                <h5 class="mb-0 text-primary">Tambah Data</h5>
+                <h5 class="mb-0 text-primary font-weight-bold">Tambah Data</h5>
             </div>
             <div class="card-body">
                 <form action="<?= base_url('product') ?>" method="POST">
                     <div class="row">
-                        <div class="col-lg-4 border-right">
+                        <div class="col-lg-4 border-right mb-3">
                             <div class="form-group">
                                 <label>Nama Produk</label>
                                 <input type="text" class="form-control" name="name" id="name">
@@ -28,43 +28,46 @@
                                 </select>
                                 <?= form_error('id_supplier', '<small class="text-danger">', '</small>') ?>
                             </div>
+                            <div id="data_supplier"></div>
                             <button class="btn btn-sm btn-primary float-right"><i class="fas fa-save"></i> Simpan</button>
 
                         </div>
                         <div class="col-lg-8">
                             <h5><i class="fas fa-info-circle"></i> Detail Supplier</h5>
                             <hr>
-                            <h5 class="text-primary font-weight-bold">Nama Supplier</h5>
-                            <table class="table table-bordered">
-                                <tr id="tr-product">
-                                    <th>Alamat</th>
-                                    <td id="productDetail">Jl Daan Mogot Km.11 No.12, Cipanas, Bogor</td>
-                                </tr>
-                                <tr>
-                                    <th>Nama Kontak</th>
-                                    <td id="showQty">Supardi</td>
-                                </tr>
-                                <tr>
-                                    <th>No. Handphone</th>
-                                    <td id="total">0</td>
-                                </tr>
-                                <tr>
-                                    <th>Harga/Tanki</th>
-                                    <td id="total">0</td>
-                                </tr>
-                                <tr>
-                                    <th>Jumlah Liter/Tanki</th>
-                                    <td id="total">0</td>
-                                </tr>
-                                <tr>
-                                    <th>Jumlah Galon yang didapat</th>
-                                    <td id="total">0</td>
-                                </tr>
-                                <tr>
-                                    <th>Modal/Galon</th>
-                                    <td id="total">0</td>
-                                </tr>
-                            </table>
+                            <h5 class="text-primary font-weight-bold" id="nameSupplier"></h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tr id="tr-product">
+                                        <th>Alamat</th>
+                                        <td id="addressSupplier">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nama Kontak</th>
+                                        <td id="contactSupplier">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>No. Handphone</th>
+                                        <td id="phoneSupplier">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Harga/Tanki</th>
+                                        <td id="priceSupplier">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Jumlah Liter/Tanki</th>
+                                        <td id="literSupplier">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Jumlah Galon yang didapat</th>
+                                        <td id="stockSupplier">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Modal/Galon</th>
+                                        <td id="unitpriceSupplier">-</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </form>

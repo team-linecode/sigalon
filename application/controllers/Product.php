@@ -46,8 +46,8 @@ class Product extends CI_Controller
         $this->form_validation->set_rules('price', 'Price', 'required');
 
         if ($this->form_validation->run() == FALSE) {
-            $data['title'] = 'Supplier';
-            $data['products'] = $this->db->get_where('products', ['id' => $id])->row();
+            $data['title'] = 'Edit Barang';
+            $data['products'] = $this->db->query("SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
             $data['suppliers'] = $this->db->get('suppliers')->result();
             $this->load->view('layout/admin/header', $data);
             $this->load->view('admin/product/edit');
@@ -76,8 +76,11 @@ class Product extends CI_Controller
     public function get_supplier($id)
     {
         $supplier = $this->db->get_where('suppliers', ['id'=> $id])->row();
+        $supplier->price = number_format($supplier->price);
+        $supplier->liter = number_format($supplier->liter);
+        $supplier->stock = number_format($supplier->stock);
+        $supplier->unit_price = number_format($supplier->unit_price);
 		header('Content-Type: application/json');
 		echo json_encode($supplier);
-        var_dump($supplier);
     }
 }

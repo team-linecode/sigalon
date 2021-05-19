@@ -22,19 +22,22 @@ $(function () {
 })
 
 $("#id_supplier").change(function () {
-	let $id_supplier = $(this).val();
+	let id = $(this).val();
 
 	$.ajax({
 		type: "POST",
-		url: BASE_URL + '/product/get_supplier/' + $id_supplier,
+		url: BASE_URL + '/product/get_supplier/' + id,
 		cache: false,
 		dataType: 'json',
 		success: function (result) {
-			$("#data_supplier").html(`
-			Nama : ` + result.name + `<br>
-			Supplier : ` + result.address + `<br>
-			Harga : ` + result.price + `
-			`)
+			$("#nameSupplier").html(result.name)
+			$("#addressSupplier").html(result.address)
+			$("#contactSupplier").html(result.contact)
+			$("#phoneSupplier").html(result.phone)
+			$("#priceSupplier").html(`Rp ` + result.price)
+			$("#literSupplier").html(result.liter)
+			$("#stockSupplier").html(result.stock)
+			$("#unitpriceSupplier").html(`Rp ` + result.unit_price)
 		}
 	});
 });
