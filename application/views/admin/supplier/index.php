@@ -89,7 +89,7 @@
                                     <td><?= $row->phone; ?></td>
                                     <td>Rp <?= number_format($row->price); ?></td>
                                     <td><?= $row->liter; ?></td>
-                                    <td><?= $row->stok; ?></td>
+                                    <td><?= $row->stock; ?></td>
                                     <td>Rp <?= number_format($row->unit_price); ?></td>
                                     <td>
                                         <a href="<?= base_url('supplier/edit/' . $row->id) ?>" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>

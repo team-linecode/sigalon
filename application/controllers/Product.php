@@ -27,7 +27,6 @@ class Product extends CI_Controller
                 'price' => $price,
                 'status' => 'Active'
             ];
-            var_dump($data);
             
             $this->db->insert('products', $data);
             redirect('product/index');

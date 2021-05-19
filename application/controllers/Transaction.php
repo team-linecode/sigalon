@@ -22,7 +22,7 @@ class Transaction extends CI_Controller
 
 		if ($this->form_validation->run() == FALSE) {
 			$data['title'] = 'Transaksi Baru';
-			$data['transactions'] = $this->db->query('SELECT * FROM transactions JOIN products ON transactions.id_product = products.id JOIN users ON transactions.id_user = users.id JOIN payment_methods ON transactions.id_payment_method = payment_methods.id')->result();
+			$data['transactions'] = $this->db->query("SELECT * FROM transactions JOIN products ON transactions.id_product = products.id JOIN users ON transactions.id_user = users.id JOIN payment_methods ON transactions.id_payment_method = payment_methods.id")->result();
 			$data['payment_methods'] = $this->db->get('payment_methods')->result();
 			$data['customers'] = $this->db->get_where('users', ['level' => 'Customer'])->result();
 
@@ -30,22 +30,29 @@ class Transaction extends CI_Controller
 			$this->load->view('admin/transaction/create', $data);
 			$this->load->view('layout/admin/footer');
 		} else {
-			$product = $this->db->get_where('products', ['id', $this->input->post('product')])->row();
+			$product = $this->db->get_where('products', ['id' => $this->input->post('product')])->row();
 			$no_invoice = rand(111111, 999999);
 			$status = 'Unpaid';
 			$total = $product->price * $this->input->post('qty');
+			$type = $this->input->post('type');
 
 			$data = [
 				'no_invoice' => $no_invoice,
 				'id_product' => $this->input->post('product'),
-				'id_user' => $this->input->post('user'),
 				'qty' => $this->input->post('qty'),
 				'total' => $total,
 				'id_payment_method' => $this->input->post('payment_method'),
 				'date' => date('d-m-Y'),
 				'delivery_method' => $this->input->post('delivery_method'),
-				'status' => $status
+				'status' => $status,
+				'type' => $type
 			];
+
+			if ($type == 'in') {
+				$data['id_user'] = $this->input->post('user');
+			} else {
+				$data['id_supplier'] = $this->input->post('user');
+			}
 
 			$this->db->insert('transactions', $data);
 			redirect('transaction');

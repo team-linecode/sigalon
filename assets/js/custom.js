@@ -138,12 +138,7 @@ $('#transaction #user').change(function () {
 // Get detail payment method
 $('#transaction #paymentMethod').change(function () {
 	$val = $(this).val()
-})
 
-// Calculate transaction price
-$('#transaction #qty').keyup(function () {
-	$val = $(this).val();
-	$productId = $('#transaction #product').val();
 	$.ajax({
 		type: "GET",
 		url: BASE_URL + '/transaction/get_payment_method/' + $val,
@@ -168,6 +163,28 @@ $('#transaction #qty').keyup(function () {
 				$('#transaction #showQty').html($val)
 			}
 
+		}
+	})
+})
+
+// Calculate transaction price
+$('#transaction #qty').keyup(function () {
+	$val = $(this).val();
+	$productId = $('#transaction #product').val();
+
+	if ($val == '') {
+		$('#transaction #showQty').html(0)
+	} else {
+		$('#transaction #showQty').html($val)
+	}
+
+	$.ajax({
+		type: "GET",
+		url: BASE_URL + '/transaction/calculate_price/' + $productId + '/' + $val,
+		cache: false,
+		dataType: 'json',
+		success: function (result) {
+			$("#transaction #total").html(result)
 		}
 	})
 })

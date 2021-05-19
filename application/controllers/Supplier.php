@@ -27,8 +27,8 @@ class Supplier extends CI_Controller
             $this->load->view('admin/supplier/index');
             $this->load->view('layout/admin/footer');
         } else {
-            $stok = floor($liter / $liter_galon);
-            $unit_price = floor($price / $stok);
+            $stock = floor($liter / $liter_galon);
+            $unit_price = floor($price / $stock);
             $data = [
 				'name' => $name,
 				'address' => $address,
@@ -36,7 +36,7 @@ class Supplier extends CI_Controller
 				'phone' => $phone,
 				'price' => $price,
 				'liter' => $liter,
-				'stok' => $stok,
+				'stock' => $stock,
 				'unit_price' => $unit_price 
 			];
 			
@@ -69,8 +69,8 @@ class Supplier extends CI_Controller
             $this->load->view('admin/supplier/edit');
             $this->load->view('layout/admin/footer');
         } else {
-            $stok = floor($liter / $liter_galon);
-            $unit_price = floor($price / $stok);
+            $stock = floor($liter / $liter_galon);
+            $unit_price = floor($price / $stock);
             $data = [
 				'name' => $name,
 				'address' => $address,
@@ -78,7 +78,7 @@ class Supplier extends CI_Controller
 				'phone' => $phone,
 				'price' => $price,
 				'liter' => $liter,
-				'stok' => $stok,
+				'stock' => $stock,
 				'unit_price' => $unit_price 
 			];
 			
