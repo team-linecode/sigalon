@@ -20,7 +20,6 @@ $(function () {
 })
 
 $("#id_supplier").change(function () {
-
 	let id_supplier = $(this).val()
 
 	$.ajax({
@@ -34,8 +33,59 @@ $("#id_supplier").change(function () {
 	});
 });
 
+// get user in transaction
+$('#transaction #type').change(function () {
+	$type = $(this).val();
+
+	$.ajax({
+		type: "GET",
+		url: BASE_URL + '/transaction/get_user/' + $type,
+		cache: false,
+		beforeSend: () => {
+			$('#transaction #user').attr('disabled', 'disabled')
+			$('#transaction #user').html(`<option>Sedang mengambil data...</option>`)
+		},
+		dataType: 'html',
+		success: function (result) {
+			$('#transaction #product>option:eq(0)').prop('selected', true)
+			$('#transaction #product').attr('disabled', 'disabled')
+
+			$('#transaction #qty').attr('disabled', 'disabled').val('')
+
+			$('#transaction #productDetail').html('-')
+			$('#transaction #showQty').html(0)
+			$('#transaction #total').html(0)
+
+			$('#transaction #user').removeAttr('disabled')
+			$('#transaction #user').html(result)
+		}
+	})
+})
+
+// Get products
+$('#transaction #user').change(function () {
+	$type = $("#transaction #type").val();
+	$userId = $("#transaction #user").val();
+
+	$.ajax({
+		type: "GET",
+		url: BASE_URL + '/transaction/get_supplier_product/' + $userId + '/' + $type,
+		cache: false,
+		beforeSend: () => {
+			$('#transaction #product').attr('disabled', 'disabled')
+			$('#transaction #product').html(`<option>Sedang mengambil data...</option>`)
+		},
+		dataType: 'html',
+		success: function (result) {
+			console.log(result)
+			$('#transaction #product').html(result)
+			$('#transaction #product').removeAttr('disabled')
+		}
+	})
+})
+
 // Get detail product in transaction
-$('#transaction #product').click(function () {
+$('#transaction #product').change(function () {
 	$val = $(this).val();
 	$.ajax({
 		type: "GET",
@@ -50,6 +100,7 @@ $('#transaction #product').click(function () {
 			`)
 			$("#transaction #qty").attr('max', result.stock)
 			$("#transaction #qty").removeAttr('disabled')
+			console.log('ok');
 		}
 	})
 })
@@ -76,11 +127,6 @@ $('#transaction #qty').keyup(function () {
 	})
 })
 
-// Open select product on change customer
-$('#transaction #user').change(function () {
-	$('#transaction #product').removeAttr('disabled')
-})
-
 // Get detail payment method
 $('#transaction #paymentMethod').change(function () {
 	$val = $(this).val()
@@ -95,7 +141,7 @@ $('#transaction #paymentMethod').change(function () {
 				$("#transaction #showPaymentMethod").html(`
 					Metode : ` + result.name + `<br>
 					Nomer Rekening : ` + result.acc_number + `<br>
-					Atas Nama : ` + result.atas_nama + `
+					Atas Nama : ` + result.acc_name + `
 				`)
 			} else {
 				$("#transaction #showPaymentMethod").html(`

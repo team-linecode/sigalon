@@ -23,7 +23,6 @@ class Transaction extends CI_Controller
 		if ($this->form_validation->run() == FALSE) {
 			$data['title'] = 'Transaksi Baru';
 			$data['transactions'] = $this->db->query('SELECT * FROM transactions JOIN products ON transactions.id_product = products.id JOIN users ON transactions.id_user = users.id JOIN payment_methods ON transactions.id_payment_method = payment_methods.id')->result();
-			$data['products'] = $this->db->get('products')->result();
 			$data['payment_methods'] = $this->db->get('payment_methods')->result();
 			$data['customers'] = $this->db->get_where('users', ['level' => 'Customer'])->result();
 
@@ -83,5 +82,68 @@ class Transaction extends CI_Controller
 		$payment_method = $this->db->get_where('payment_methods', ['id' => $id])->row();
 		header('Content-Type: application/json');
 		echo json_encode($payment_method);
+	}
+
+	public function get_user($type)
+	{
+		if ($type == 'in') {
+			$type = 'Supplier';
+			$users = $this->db->get('suppliers')->result();
+		} else if ($type == 'out') {
+			$type = 'Customer';
+			$users = $this->db->get_where('users', ['level !=' => 'admin'])->result();
+		}
+
+		$attr = '<option hidden>Pilih ' . $type . '</option>';
+		if (count($users) < 1) {
+			$attr .= '<option disabled>Tidak ada data.</option>';
+		} else {
+			$attr .= '<optgroup label="' . $type . '">';
+			foreach ($users as $user) {
+				if ($type == 'Supplier') {
+					$attr .= '<option value="' . $user->id . '">' . $user->name . '</option>';
+				} else {
+					$attr .= '<option value="' . $user->id . '">' . $user->name . ' (' . $user->username . ')' . '</option>';
+				}
+			}
+			$attr .= '</optgroup>';
+		}
+
+		echo $attr;
+	}
+
+	public function get_supplier_product($id_supplier, $type)
+	{
+		if ($type == 'in') {
+			$products = $this->db->get_where('products', ['id_supplier' => $id_supplier])->result();
+		} else {
+			$products = $this->db->query("SELECT *, suppliers.name as supplier_name, products.name as product_name, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id")->result();
+			$suppliers = $this->db->get('suppliers')->result();
+		}
+
+		$attr = '<option hidden>Pilih Produk</option>';
+		if (count($products) < 1) {
+			$attr .= '<option disabled>Tidak ada data.</option>';
+		} else {
+			foreach ($suppliers as $supplier) {
+				if ($type == 'out') {
+					$attr .= '<optgroup label="' . $supplier->name . '">';
+				}
+				foreach ($products as $product) {
+					if ($type == 'in') {
+						$attr .= '<option value="' . $product->id . '">' . $product->name . '</option>';
+					} else {
+						if ($supplier->id == $product->id_supplier) {
+							$attr .= '<option value="' . $product->product_id . '">' . $product->product_name . '</option>';
+						}
+					}
+				}
+				if ($type == 'out') {
+					$attr .= '</optgroup>';
+				}
+			}
+		}
+
+		echo $attr;
 	}
 }
