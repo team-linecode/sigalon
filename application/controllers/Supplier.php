@@ -82,6 +82,7 @@ class Supplier extends CI_Controller
 				'unit_price' => $unit_price 
 			];
 			
+            $this->db->where('id', $id);
 			$this->db->update('suppliers', $data);
 			redirect('supplier/index');
         }

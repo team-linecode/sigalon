@@ -1,7 +1,9 @@
 // Datatables
+
 $(".datatables").DataTable();
 
 // Hide and Show Account Number in Payment Method
+
 $('#type').change(function () {
 	var type = $('#type').val()
 	if (type == 'transfer') {
@@ -20,15 +22,19 @@ $(function () {
 })
 
 $("#id_supplier").change(function () {
-	let id_supplier = $(this).val()
+	let $id_supplier = $(this).val();
 
 	$.ajax({
-		url: '/product/get_supplier',
-		data: 'id_supplier=' + id_supplier,
-		type: 'post',
-		dataType: 'html',
+		type: "POST",
+		url: BASE_URL + '/product/get_supplier/' + $id_supplier,
+		cache: false,
+		dataType: 'json',
 		success: function (result) {
-			$("#data_supplier").html(result)
+			$("#data_supplier").html(`
+			Nama : ` + result.name + `<br>
+			Supplier : ` + result.address + `<br>
+			Harga : ` + result.price + `
+			`)
 		}
 	});
 });
@@ -104,33 +110,40 @@ $('#transaction #product').change(function () {
 		}
 	})
 })
-
-// Calculate transaction price
-$('#transaction #qty').keyup(function () {
+// Get detail product in transaction
+$('#transaction #product').click(function () {
 	$val = $(this).val();
-	$productId = $('#transaction #product').val();
-
-	if ($val == '') {
-		$('#transaction #showQty').html(0)
-	} else {
-		$('#transaction #showQty').html($val)
-	}
-
 	$.ajax({
 		type: "GET",
-		url: BASE_URL + '/transaction/calculate_price/' + $productId + '/' + $val,
+		url: BASE_URL + '/transaction/get_product/' + $val,
 		cache: false,
 		dataType: 'json',
 		success: function (result) {
-			$("#transaction #total").html(result)
+			$('#transaction #productDetail').html(`
+			Nama : ` + result.product_name + `<br>
+			Supplier : ` + result.supplier_name + `<br>
+			Harga : ` + result.product_price + `
+			`)
+			$("#transaction #qty").attr('max', result.stock)
+			$("#transaction #qty").removeAttr('disabled')
 		}
 	})
+})
+
+// Open select product on change customer
+$('#transaction #user').change(function () {
+	$('#transaction #product').removeAttr('disabled')
 })
 
 // Get detail payment method
 $('#transaction #paymentMethod').change(function () {
 	$val = $(this).val()
+})
 
+// Calculate transaction price
+$('#transaction #qty').keyup(function () {
+	$val = $(this).val();
+	$productId = $('#transaction #product').val();
 	$.ajax({
 		type: "GET",
 		url: BASE_URL + '/transaction/get_payment_method/' + $val,
@@ -148,6 +161,13 @@ $('#transaction #paymentMethod').change(function () {
 					Metode : ` + result.name + `
 				`)
 			}
+
+			if ($val == '') {
+				$('#transaction #showQty').html(0)
+			} else {
+				$('#transaction #showQty').html($val)
+			}
+
 		}
 	})
 })
