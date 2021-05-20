@@ -87,7 +87,7 @@
                                 <th>Nama</th>
                                 <th>Harga</th>
                                 <th>Supplier</th>
-                                <th>Stock</th>
+                                <th>Stok</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -100,7 +100,7 @@
                                     <td class="text-left"><?= $row->product_name; ?></td>
                                     <td>Rp <?= number_format($row->product_price); ?></td>
                                     <td class="text-left"><?= $row->supplier_name; ?></td>
-                                    <td class="text-left"><?= $row->stock; ?></td>
+                                    <td class="text-left"><?= $row->product_stock; ?></td>
                                     <td><?= $row->status; ?></td>
                                     <td>
                                         <a href="<?= base_url('product/edit/' . $row->product_id) ?>" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>

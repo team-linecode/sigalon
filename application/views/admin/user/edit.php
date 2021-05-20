@@ -25,7 +25,7 @@
 					</div>
 					<div class="form-group">
 						<label>Alamat</label>
-						<input type="text" class="form-control" name="address" value="<?= $user->address ?>">
+						<textarea class="form-control" name="address" rows="4"><?= $user->address ?></textarea>
 						<?php echo form_error('address', '<small class="text-danger">', '</small>'); ?>
 					</div>
 					<div class="form-group">

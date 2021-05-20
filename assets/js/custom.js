@@ -56,6 +56,7 @@ $('#transaction #type').change(function () {
 
 		$("#transaction #deliveryMethod>option:eq(2)").prop('selected', true)
 		$("#transaction #deliveryMethod>option:eq(1)").attr('hidden', 'hidden')
+		$('#transaction #showDeliveryMethod').html($("#transaction #deliveryMethod>option:eq(2)").val())
 		$("#transaction #deliveryMethod").attr('readonly', 'on')
 	} else {
 		$("#transaction #deliveryMethod>option:eq(1)").removeAttr('hidden')
@@ -130,7 +131,8 @@ $('#transaction #product').change(function () {
 			$('#transaction #productDetail').html(`
 				Nama : ` + result.product_name + `<br>
 				Supplier : ` + result.supplier_name + `<br>
-				Harga Satuan : Rp ` + result.product_price + `
+				Harga satuan : Rp ` + result.product_price + `<br>
+				Stok tersisa : ` + result.product_stock + `
 			`)
 			if ($type == 'out') {
 				$("#transaction #qty").attr('max', result.stock)
