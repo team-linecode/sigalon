@@ -15,7 +15,7 @@ class Product extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Barang';
-            $data['products'] = $this->db->query('SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id')->result();
+            $data['products'] = $this->db->query('SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id, products.stock as product_stock FROM products JOIN suppliers ON products.id_supplier = suppliers.id')->result();
             $data['suppliers'] = $this->db->get('suppliers')->result();
             $this->load->view('layout/admin/header', $data);
             $this->load->view('admin/product/index');

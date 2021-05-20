@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Transaction extends CI_Controller
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Transaction_model', 'Transaction');
+	}
+
 	public function index()
 	{
 		$data['title'] = 'Transaksi';
@@ -45,7 +51,7 @@ class Transaction extends CI_Controller
 				'qty' => $this->input->post('qty'),
 				'total' => $total,
 				'id_payment_method' => $this->input->post('payment_method'),
-				'date' => date('d-m-Y'),
+				'date' => date('d-m-Y H:i:s'),
 				'delivery_method' => $this->input->post('delivery_method'),
 				'status' => $status,
 				'type' => $type
@@ -66,18 +72,21 @@ class Transaction extends CI_Controller
 
 	public function change_status($id, $status)
 	{
-		$trx = $this->db->query("SELECT *, spl.stock as supplier_stock, p.stock as product_stock, p.id as product_id FROM transactions trx JOIN suppliers spl ON trx.id_supplier = spl.id JOIN products p ON trx.id_product = p.id WHERE trx.id = '$id'")->row();
-		
+		$trx = $this->db->query("SELECT *, spl.stock as supplier_stock, p.stock as product_stock, p.id as product_id FROM transactions trx LEFT JOIN users usr ON trx.id_user = usr.id LEFT JOIN suppliers spl ON trx.id_supplier = spl.id JOIN products p ON trx.id_product = p.id WHERE trx.id = '$id'")->row();
+
 		if ($status == 'Paid') {
 			if ($trx->type == 'in') {
 				$product_stock = ($trx->product_stock + $trx->supplier_stock);
-				$this->db->set('stock', $product_stock);
-				$this->db->where('id', $trx->product_id);
-				$this->db->update('products');
+			} else {
+				$product_stock = ($trx->product_stock - $trx->qty);
 			}
-			$this->db->set('paid_at', date('d-m-Y'));
+			$this->db->set('stock', $product_stock);
+			$this->db->where('id', $trx->product_id);
+			$this->db->update('products');
+
+			$this->db->set('paid_at', date('d-m-Y H:i:s'));
 		} else if ($status == 'Canceled') {
-			$this->db->set('canceled_at', date('d-m-Y'));
+			$this->db->set('canceled_at', date('d-m-Y H:i:s'));
 		}
 
 		$this->db->set('status', $status);
@@ -89,8 +98,9 @@ class Transaction extends CI_Controller
 
 	public function get_product($id)
 	{
-		$product = $this->db->query("SELECT *, suppliers.name as supplier_name, suppliers.price as supplier_price, products.name as product_name, products.price as product_price, suppliers.stock as supplier_stock FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
+		$product = $this->db->query("SELECT *, suppliers.name as supplier_name, suppliers.price as supplier_price, products.name as product_name, products.price as product_price, products.stock as product_stock, suppliers.stock as supplier_stock FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
 		$product->product_price = number_format($product->product_price);
+		$product->product_stock = number_format($product->product_stock);
 		$product->supplier_price = 'Rp ' . number_format($product->supplier_price);
 		$product->supplier_stock = number_format($product->supplier_stock, 0, '.', '.');
 		$product->liter = number_format($product->liter, 0, '.', '.');
@@ -146,7 +156,7 @@ class Transaction extends CI_Controller
 		if ($type == 'in') {
 			$products = $this->db->get_where('products', ['id_supplier' => $id_supplier])->result();
 		} else {
-			$products = $this->db->query("SELECT *, suppliers.name as supplier_name, products.name as product_name, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id")->result();
+			$products = $this->db->query("SELECT *, suppliers.name as supplier_name, products.id as product_id, products.name as product_name, products.stock as product_stock FROM products JOIN suppliers ON products.id_supplier = suppliers.id")->result();
 			$suppliers = $this->db->get('suppliers')->result();
 		}
 
@@ -163,7 +173,11 @@ class Transaction extends CI_Controller
 					$attr .= '<optgroup label="' . $supplier->name . '">';
 					foreach ($products as $product) {
 						if ($supplier->id == $product->id_supplier) {
-							$attr .= '<option value="' . $product->product_id . '">' . $product->product_name . '</option>';
+							if ($product->product_stock > 0) {
+								$attr .= '<option value="' . $product->product_id . '">' . $product->product_name . '</option>';
+							} else {
+								$attr .= '<option value="" disabled>' . $product->product_name . ' [Stok Habis]</option>';
+							}
 						}
 					}
 					$attr .= '</optgroup>';
@@ -172,5 +186,25 @@ class Transaction extends CI_Controller
 		}
 
 		echo $attr;
+	}
+
+	public function invoice($no_invoice)
+	{
+		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice);
+		$data['title'] = 'Invoice';
+
+		$this->load->view('layout/admin/header', $data);
+		$this->load->view('admin/transaction/invoice', $data);
+		$this->load->view('layout/admin/footer');
+	}
+
+	public function pdf($no_invoice)
+	{
+		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice);
+
+		$this->load->library('pdf');
+		$this->pdf->setPaper('A4', 'potrait');
+		$this->pdf->filename = "Invoice.pdf";
+		$this->pdf->load_view('admin/transaction/pdf', $data);
 	}
 }
