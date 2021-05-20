@@ -30,6 +30,7 @@ class User extends CI_Controller
 			];
 
 			$this->db->insert('users', $data);
+			$this->session->set_flashdata('success', 'Data User berhasil dibuat');
 			redirect('user');
 		}
 	}
@@ -55,10 +56,12 @@ class User extends CI_Controller
 			$check_phone = $this->db->get_where('users', ['phone' => $this->input->post('phone')])->result();
 
 			if (count($check_username) > 0 && $user->username != $this->input->post('username')) {
+				$this->session->set_flashdata('error', 'Username telah digunakan');
 				redirect('user/edit/' . $id);
 			}
 
 			if (count($check_phone) > 0 && $user->phone != $this->input->post('phone')) {
+				$this->session->set_flashdata('error', 'Nomor Handphone telah digunakan');
 				redirect('user/edit/' . $id);
 			}
 
@@ -74,6 +77,7 @@ class User extends CI_Controller
 
 			$this->db->where('id', $id);
 			$this->db->update('users', $data);
+			$this->session->set_flashdata('success', 'Data User berhasil diubah');
 			redirect('user');
 		}
 	}
@@ -82,6 +86,7 @@ class User extends CI_Controller
 	{
 		$this->db->where('id', $id);
 		$this->db->delete('users');
+		$this->session->set_flashdata('success', 'Data User berhasil dihapus');
 		redirect('user');
 	}
 }

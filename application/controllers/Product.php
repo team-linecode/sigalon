@@ -29,6 +29,7 @@ class Product extends CI_Controller
             ];
             
             $this->db->insert('products', $data);
+            $this->session->set_flashdata('success', 'Data Barang berhasil ditambahkan');
             redirect('product/index');
         }
     }
@@ -62,6 +63,8 @@ class Product extends CI_Controller
 
             $this->db->where('id', $id);
             $this->db->update('products', $data);
+
+            $this->session->set_flashdata('success', 'Data Barang berhasil diubah');
             redirect('product');
         }
     }
@@ -70,6 +73,7 @@ class Product extends CI_Controller
     {
         $this->db->where('id', $id);
         $this->db->delete('products');
+        $this->session->set_flashdata('success', 'Data Barang berhasil dihapus');
         redirect('product');
     }
 

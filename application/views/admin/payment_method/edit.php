@@ -25,6 +25,11 @@
                         <input type="text" class="form-control" name="acc_number" id="acc_number" value="<?= $method->acc_number ?>">
                         <?= form_error('acc_number','<small class="text-danger">', '</small>') ?>
                     </div>
+                    <div class="form-group" id="account_name_edit">
+                        <label for="">Atas Nama Rekening</label>
+                        <input type="text" class="form-control" name="acc_name" id="acc_name" value="<?= $method->acc_name ?>">
+                        <?= form_error('acc_name','<small class="text-danger">', '</small>') ?>
+                    </div>
                     <div class="form-group">
                         <label for="">Status</label>
                         <select name="status" id="status" class="custom-select">

@@ -41,6 +41,7 @@ class Supplier extends CI_Controller
 			];
 			
 			$this->db->insert('suppliers', $data);
+            $this->session->set_flashdata('success', 'Data Supplier berhasil ditambahkan');
 			redirect('supplier/index');
         }
     }
@@ -84,6 +85,8 @@ class Supplier extends CI_Controller
 			
             $this->db->where('id', $id);
 			$this->db->update('suppliers', $data);
+
+            $this->session->set_flashdata('success', 'Data Supplier berhasil diubah');
 			redirect('supplier/index');
         }
     }
@@ -92,6 +95,7 @@ class Supplier extends CI_Controller
 	{
 		$this->db->where('id', $id);
 		$this->db->delete('suppliers');
+        $this->session->set_flashdata('success', 'Data Barang berhasil dihapus');
 		redirect('supplier/index');
 	}
 }

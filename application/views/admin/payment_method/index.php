@@ -25,6 +25,11 @@
                         <input type="text" class="form-control" name="acc_number" id="acc_number">
                         <?= form_error('acc_number','<small class="text-danger">', '</small>') ?>
                     </div>
+                    <div class="form-group" id="account_name">
+                        <label for="">Atas Nama Rekening</label>
+                        <input type="text" class="form-control" name="acc_name" id="acc_name">
+                        <?= form_error('acc_name','<small class="text-danger">', '</small>') ?>
+                    </div>
                     <button class="btn btn-sm btn-primary float-right"><i class="fas fa-save"></i> Simpan</button>
                 </form>
             </div>
@@ -42,6 +47,7 @@
                                 <th>Nama</th>
                                 <th>Tipe</th>
                                 <th>Nomor Rekening</th>
+                                <th>Atas Nama Rekening</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -54,6 +60,7 @@
                                     <td class="text-left"><?= $row->name; ?></td>
                                     <td><?= $row->type == 'cod' ? 'COD' : 'Transfer Bank'; ?></td>
                                     <td><?= empty($row->acc_number) ? '-' : $row->acc_number; ?></td>
+                                    <td><?= empty($row->acc_name) ? '-' : $row->acc_name; ?></td>
                                     <td><i class="fas fa-circle text-<?= $row->status == 'Active' ? 'success' : 'danger' ?>"></i> <?= $row->status; ?></td>
                                     <td>
                                         <a href="<?= base_url('payment_method/edit/'.$row->id) ?>" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>

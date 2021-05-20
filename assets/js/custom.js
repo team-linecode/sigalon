@@ -8,19 +8,23 @@ $('#type').change(function () {
 	var type = $('#type').val()
 	if (type == 'transfer') {
 		$('#account_number').show()
+		$('#account_name').show()
 	}
 
 	if (type == 'cod') {
 		$('#account_number').hide()
+		$('#account_name').hide()
 	}
 })
 
 $('#account_number').hide()
+$('#account_name').hide()
 
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
 })
 
+// Get data supplier in product
 $("#id_supplier").change(function () {
 	let id = $(this).val();
 
