@@ -103,8 +103,8 @@
                                     <td class="text-left"><?= $row->product_stock; ?></td>
                                     <td><?= $row->status; ?></td>
                                     <td>
-                                        <a href="<?= base_url('product/edit/' . $row->product_id) ?>" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>
-                                        <a href="<?= base_url('product/delete/' . $row->product_id) ?>" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="left" title="Delete"><i class="fas fa-trash"></i></a>
+                                        <a href="<?= base_url('product/edit/' . $row->product_id) ?>" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>
+                                        <button data-target="<?= base_url('product/delete/' . $row->product_id) ?>" class="btn btn-danger btn-sm confirm-delete" data-toggle="tooltip" data-placement="left" title="Delete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             <?php } ?>

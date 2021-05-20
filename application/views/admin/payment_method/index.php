@@ -63,8 +63,8 @@
                                     <td><?= empty($row->acc_name) ? '-' : $row->acc_name; ?></td>
                                     <td><i class="fas fa-circle text-<?= $row->status == 'Active' ? 'success' : 'danger' ?>"></i> <?= $row->status; ?></td>
                                     <td>
-                                        <a href="<?= base_url('payment_method/edit/'.$row->id) ?>" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>
-                                        <a href="<?= base_url('payment_method/delete/'.$row->id) ?>" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="left" title="Delete"><i class="fas fa-trash"></i></a>
+                                        <a href="<?= base_url('payment_method/edit/'.$row->id) ?>" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>
+                                        <button data-target="<?= base_url('payment_method/delete/' . $row->id) ?>" class="btn btn-danger btn-sm confirm-delete" data-toggle="tooltip" data-placement="left" title="Delete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             <?php } ?>

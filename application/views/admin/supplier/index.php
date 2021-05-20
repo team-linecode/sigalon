@@ -92,8 +92,8 @@
                                     <td><?= $row->stock; ?></td>
                                     <td>Rp <?= number_format($row->unit_price); ?></td>
                                     <td>
-                                        <a href="<?= base_url('supplier/edit/' . $row->id) ?>" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>
-                                        <a href="<?= base_url('supplier/delete/' . $row->id) ?>" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="left" title="Delete"><i class="fas fa-trash"></i></a>
+                                        <a href="<?= base_url('supplier/edit/' . $row->id) ?>" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>
+                                        <button data-target="<?= base_url('supplier/delete/' . $row->id) ?>" class="btn btn-danger btn-sm confirm-delete" data-toggle="tooltip" data-placement="left" title="Delete"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
                             <?php } ?>

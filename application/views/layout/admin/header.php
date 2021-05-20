@@ -86,6 +86,12 @@
 				</a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link" href="<?= base_url('site') ?>">
+					<i class="fas fa-fw fa-globe"></i>
+					<span>Sites</span>
+				</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link" href="<?= base_url('transaction') ?>">
 					<i class="fas fa-fw fa-cash-register"></i>
 					<span>Transaksi</span>

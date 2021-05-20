@@ -75,8 +75,8 @@
 										<td><?= $row->phone ?></td>
 										<td><?= $row->address ?></td>
 										<td>
-											<a href="<?= base_url('user/edit/' . $row->id) ?>" class="btn btn-primary btn-sm mb-2">Ubah</a>
-											<button data-target="<?= base_url('user/delete/' . $row->id) ?>" class="btn btn-danger btn-sm confirm-delete">Hapus</button>
+											<a href="<?= base_url('user/edit/' . $row->id) ?>" class="btn btn-primary btn-sm mb-2" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fas fa-pen"></i></a>
+											<button data-target="<?= base_url('user/delete/' . $row->id) ?>" class="btn btn-danger btn-sm confirm-delete" data-toggle="tooltip" data-placement="left" title="Delete"><i class="fas fa-trash"></i></button>
 										</td>
 									</tr>
 								<?php endforeach ?>
