@@ -193,3 +193,27 @@ $('#transaction #qty').keyup(function () {
 $("#transaction #deliveryMethod").change(function () {
 	$('#transaction #showDeliveryMethod').html($(this).val())
 })
+
+// Print
+function print($noInvoice) {
+	$.ajax({
+		type: "GET",
+		url: BASE_URL + '/transaction/print/' + $noInvoice,
+		dataType: 'html',
+		success: function (result) {
+			var params = [
+				'height=' + screen.height,
+				'width=' + screen.width,
+				'fullscreen=yes' // only works in IE, but here for completeness
+			].join(',');
+
+			var myWindow = window.open('', 'popup_window', params);
+			myWindow.moveTo(0, 0);
+			myWindow.document.write(result);
+			myWindow.document.close();
+			myWindow.focus();
+			myWindow.print();
+			myWindow.close();
+		}
+	})
+}

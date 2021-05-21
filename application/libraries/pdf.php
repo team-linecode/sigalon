@@ -27,16 +27,6 @@ class Pdf extends Dompdf
 		$this->filename = "invoice.pdf";
 	}
 	/**
-	 * Get an instance of CodeIgniter
-	 *
-	 * @access    protected
-	 * @return    void
-	 */
-	protected function ci()
-	{
-		return get_instance();
-	}
-	/**
 	 * Load a CodeIgniter view into domPDF
 	 *
 	 * @access    public
@@ -46,11 +36,10 @@ class Pdf extends Dompdf
 	 */
 	public function load_view($view, $data = [])
 	{
-		$html = $this->ci()->load->view($view, $data, TRUE);
-		$this->load_html($html);
-		// Render the PDF
+		$ci = get_instance();
+		$html = $ci->load->view($view, $data, TRUE);
+		$this->loadHtml($html);
 		$this->render();
-		// Output the generated PDF to Browser
 		$this->stream($this->filename, ["Attachment" => false]);
 	}
 }

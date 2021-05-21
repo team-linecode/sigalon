@@ -6,6 +6,7 @@ class Transaction_model extends CI_Model
 	{
 		$trx = $this->db->query("SELECT *,
 		trx.status as trx_status,
+		trx.type as trx_type,
 		p.name as product_name,
 		p.price as product_price,
 		p.status as product_status,

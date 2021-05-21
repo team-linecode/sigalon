@@ -198,13 +198,9 @@ class Transaction extends CI_Controller
 		$this->load->view('layout/admin/footer');
 	}
 
-	public function pdf($no_invoice)
+	public function print($no_invoice)
 	{
 		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice);
-
-		$this->load->library('pdf');
-		$this->pdf->setPaper('A4', 'potrait');
-		$this->pdf->filename = "Invoice.pdf";
-		$this->pdf->load_view('admin/transaction/pdf', $data);
+		echo $this->load->view('admin/transaction/print', $data, TRUE);
 	}
 }
