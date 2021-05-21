@@ -14,8 +14,6 @@
 									<th>No. Faktur</th>
 									<th>User</th>
 									<th>Produk</th>
-									<th class="text-center">Jumlah</th>
-									<th class="text-center">Total (Rp.)</th>
 									<th>Tanggal</th>
 									<th>Tipe</th>
 									<th>Opsi</th>
@@ -35,8 +33,6 @@
 											<?= $row->product_name ?><br>
 											<small class="text-primary"><?= $row->supplier_name ?></small>
 										</td>
-										<td class="text-center"><?= $row->qty ?? "1 Tanki<br><small class='text-primary'>" . number_format($row->liter, 0, '.', '.') . " Liter</small>" ?></td>
-										<td class="text-center"><?= $row->total == 0 ? number_format($row->supplier_price) : number_format($row->total) ?></td>
 										<td><?= date('d/m/Y H:i', strtotime($row->date)) ?></td>
 										<td class="<?= $row->trx_type == 'in' ? 'text-success' : 'text-danger' ?>"><?= strtoupper($row->trx_type) ?></td>
 										<td>
@@ -52,7 +48,26 @@
 													</div>
 												</div>
 											<?php elseif ($row->trx_status == 'Paid') : ?>
-												<div class="btn btn-success btn-sm disabled"><i class="fas fa-check-circle"></i> Paid</div>
+												<div class="dropdown d-inline" title="Ubah Status">
+													<button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														Paid
+													</button>
+													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+														<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/On_Process') ?>">On Process</a>
+														<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</a>
+													</div>
+												</div>
+											<?php elseif ($row->trx_status == 'On Process') : ?>
+												<div class="dropdown d-inline" title="Ubah Status">
+													<button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+														On Proccess
+													</button>
+													<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+														<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</a>
+													</div>
+												</div>
+											<?php elseif ($row->trx_status == 'Completed') : ?>
+												<div class="btn btn-success btn-sm disabled"><i class="fas fa-check-circle"></i> Completed</div>
 											<?php else : ?>
 												<div class="btn btn-danger btn-sm disabled"><i class="fas fa-times-circle"></i> Canceled</div>
 											<?php endif ?>

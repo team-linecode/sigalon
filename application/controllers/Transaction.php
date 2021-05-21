@@ -87,6 +87,11 @@ class Transaction extends CI_Controller
 			$this->db->set('paid_at', date('d-m-Y H:i:s'));
 		} else if ($status == 'Canceled') {
 			$this->db->set('canceled_at', date('d-m-Y H:i:s'));
+		} else if ($status == 'On_Process') {
+			$this->db->set('process_at', date('d-m-Y H:i:s'));
+			$status = 'On Process';
+		} else if ($status == 'Completed') {
+			$this->db->set('completed_at', date('d-m-Y H:i:s'));
 		}
 
 		$this->db->set('status', $status);
