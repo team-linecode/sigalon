@@ -55,7 +55,7 @@ class Transaction extends CI_Controller
 				'qty' => $this->input->post('qty'),
 				'total' => $total,
 				'id_payment_method' => $this->input->post('payment_method'),
-				'date' => date('d-m-Y H:i:s'),
+				'date' => date('Y-m-d H:i:s'),
 				'delivery_method' => $this->input->post('delivery_method'),
 				'status' => $status,
 				'type' => $type
@@ -88,14 +88,14 @@ class Transaction extends CI_Controller
 			$this->db->where('id', $trx->product_id);
 			$this->db->update('products');
 
-			$this->db->set('paid_at', date('d-m-Y H:i:s'));
+			$this->db->set('paid_at', date('Y-m-d H:i:s'));
 		} else if ($status == 'Canceled') {
-			$this->db->set('canceled_at', date('d-m-Y H:i:s'));
+			$this->db->set('canceled_at', date('Y-m-d H:i:s'));
 		} else if ($status == 'On_Process') {
-			$this->db->set('process_at', date('d-m-Y H:i:s'));
+			$this->db->set('process_at', date('Y-m-d H:i:s'));
 			$status = 'On Process';
 		} else if ($status == 'Completed') {
-			$this->db->set('completed_at', date('d-m-Y H:i:s'));
+			$this->db->set('completed_at', date('Y-m-d H:i:s'));
 		}
 
 		$this->db->set('status', $status);
