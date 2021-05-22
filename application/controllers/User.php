@@ -3,6 +3,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class User extends CI_Controller
 {
+	public function __construct()
+	{
+		parent::__construct();
+		if (!check_login()) {
+			$this->session->set_flashdata('error', 'Login terlebih dahulu');
+			redirect('/');
+		}
+	}
+
 	public function index()
 	{
 		$this->form_validation->set_rules('name', 'Name', 'required');

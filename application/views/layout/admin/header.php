@@ -21,7 +21,7 @@
 	<!-- Custom styles for this template-->
 	<link href="<?= base_url('assets/css/sb-admin-2.min.css') ?>" rel="stylesheet">
 	<link href="<?= base_url('assets/css/custom.css') ?>" rel="stylesheet">
-	
+
 	<!-- Sweetalert -->
 	<script src="<?= base_url('assets/vendor/sweetalert2/dist/sweetalert2.all.min.js') ?>"></script>
 
@@ -44,59 +44,76 @@
 			</a>
 
 			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
-
-			<!-- Nav Item - Dashboard -->
-			<li class="nav-item">
-				<a class="nav-link" href="index.html">
-					<i class="fas fa-fw fa-tachometer-alt"></i>
-					<span>Dashboard</span></a>
-			</li>
-
-			<!-- Divider -->
 			<hr class="sidebar-divider">
 
-			<!-- Heading -->
-			<div class="sidebar-heading">
-				Menu
-			</div>
+			<?php if (user()->level == 'Admin') : ?>
+				<!-- Nav Item - Dashboard -->
+				<li class="nav-item">
+					<a class="nav-link" href="index.html">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Dashboard</span></a>
+				</li>
+				  
+				<!-- Heading -->
+				<div class="sidebar-heading">
+					Admin Menu
+				</div>
 
-			<li class="nav-item">
-				<a class="nav-link" href="<?= base_url('user') ?>">
-					<i class="fas fa-fw fa-users"></i>
-					<span>Users</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="<?= base_url('product') ?>">
-					<i class="fas fa-fw fa-boxes"></i>
-					<span>Product</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="<?= base_url('supplier') ?>">
-					<i class="fas fa-fw fa-user-friends"></i>
-					<span>Suplier</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="<?= base_url('payment_method') ?>">
-					<i class="fas fa-fw fa-dollar-sign"></i>
-					<span>Metode Pembayaran</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="<?= base_url('site') ?>">
-					<i class="fas fa-fw fa-globe"></i>
-					<span>Sites</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="<?= base_url('transaction') ?>">
-					<i class="fas fa-fw fa-cash-register"></i>
-					<span>Transaksi</span>
-				</a>
-			</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('user') ?>">
+						<i class="fas fa-fw fa-users"></i>
+						<span>Users</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('product') ?>">
+						<i class="fas fa-fw fa-boxes"></i>
+						<span>Product</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('supplier') ?>">
+						<i class="fas fa-fw fa-user-friends"></i>
+						<span>Suplier</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('payment_method') ?>">
+						<i class="fas fa-fw fa-dollar-sign"></i>
+						<span>Metode Pembayaran</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('site') ?>">
+						<i class="fas fa-fw fa-globe"></i>
+						<span>Sites</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('transaction') ?>">
+						<i class="fas fa-fw fa-cash-register"></i>
+						<span>Transaksi</span>
+					</a>
+				</li>
+			<?php else : ?>
+				<!-- Heading -->
+				<div class="sidebar-heading">
+					Customer Menu
+				</div>
+
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('order') ?>">
+						<i class="fas fa-fw fa-shopping-cart"></i>
+						<span>Pesanan Saya</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('transaction') ?>">
+						<i class="fas fa-fw fa-plus-circle"></i>
+						<span>Buat Pesanan</span>
+					</a>
+				</li>
+			<?php endif ?>
 
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">
@@ -128,7 +145,7 @@
 						<!-- Nav Item - User Information -->
 						<li class="nav-item dropdown no-arrow">
 							<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+								<span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= user()->name ?></span>
 								<img class="img-profile rounded-circle" src="img/undraw_profile.svg">
 							</a>
 							<!-- Dropdown - User Information -->

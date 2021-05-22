@@ -3,6 +3,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Supplier extends CI_Controller
 {
+    public function __construct()
+	{
+		parent::__construct();
+		if (!check_login()) {
+			$this->session->set_flashdata('error', 'Login terlebih dahulu');
+			redirect('/');
+		}
+	}
+    
     public function index()
     {
         $name = $this->input->post('name');

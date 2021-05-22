@@ -20,11 +20,12 @@ class Auth extends CI_Controller
 			if ($user != NULL) {
 				if (password_verify($password, $user->password)) {
 					$data_session = [
-						'name' => $user->name,
-						'username' => $user->username
+						'id_user' => $user->id,
+						'login' => TRUE
 					];
 
 					$this->session->set_userdata($data_session);
+					$this->session->set_flashdata('success', 'Berhasil Login ');
 					redirect('admin');
 				} else {
 					echo "username / password salah 2";
@@ -33,5 +34,15 @@ class Auth extends CI_Controller
 				echo "username / password salah 1";
 			}
 		}
+	}
+
+	public function logout()
+	{
+		$user_data = $this->session->all_userdata();
+		foreach ($user_data as $key => $value) {
+			$this->session->unset_userdata($key);
+		}
+		$this->session->set_flashdata('success', 'Berhasil logout');
+		redirect('/');
 	}
 }

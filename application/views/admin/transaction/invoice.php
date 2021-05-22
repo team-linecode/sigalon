@@ -20,16 +20,16 @@
 							<tr>
 								<th>Tanggal</th>
 								<th>:</th>
-								<td><?= date('F d, Y', strtotime($trx->date)) ?></td>
+								<td><?= date('M d, Y', strtotime($trx->date)) ?></td>
 							</tr>
 							<tr>
 								<th>Status</th>
 								<th>:</th>
 								<td>
-									<?php if ($trx->trx_status == 'Paid') : ?>
-										<div class="badge badge-success rounded-pill px-3"><?= $trx->trx_status ?></div>
-									<?php elseif ($trx->trx_status == 'Unpaid' || $trx->trx_status == 'Canceled') : ?>
+									<?php if ($trx->trx_status == 'Unpaid' || $trx->trx_status == 'Canceled') : ?>
 										<div class="badge badge-danger rounded-pill px-3"><?= $trx->trx_status ?></div>
+									<?php else : ?>
+										<div class="badge badge-success rounded-pill px-3"><?= $trx->trx_status ?></div>
 									<?php endif ?>
 								</td>
 							</tr>
@@ -130,29 +130,50 @@
 	</div>
 </div>
 
-<div class="row">
+<div class="row mb-5">
 	<div class="col-md-12">
-		<div class="card">
+		<div class="card border-0 shadow-sm">
 			<div class="card-body">
-				<h6 class="card-title">Timeline</h6>
+				<h6 class="card-title">Tracking</h6>
 				<div id="content">
 					<ul class="timeline">
-						<li class="event" data-date="12:30 - 1:00pm">
-							<h3>Registration</h3>
-							<p>Get here on time, it's first come first serve. Be late, get turned away.</p>
-						</li>
-						<li class="event" data-date="2:30 - 4:00pm">
-							<h3>Opening Ceremony</h3>
-							<p>Get ready for an exciting event, this will kick off in amazing fashion with MOP &amp; Busta Rhymes as an opening show.</p>
-						</li>
-						<li class="event" data-date="5:00 - 8:00pm">
-							<h3>Main Event</h3>
-							<p>This is where it all goes down. You will compete head to head with your friends and rivals. Get ready!</p>
-						</li>
-						<li class="event" data-date="8:30 - 9:30pm">
-							<h3>Closing Ceremony</h3>
-							<p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-						</li>
+						<?php if ($trx->trx_status == 'Unpaid' || $trx->trx_status == 'Canceled' || $trx->trx_status == 'Paid' || $trx->trx_status == 'On Process' || $trx->trx_status == 'Completed') : ?>
+							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->date)) ?>">
+								<h3>Pesanan Berhasil Dibuat</h3>
+								<p>Berhasil membuat pesanan, Silahkan selesaikan pembayaran agar kami segera proses pesanan anda.</p>
+							</li>
+						<?php endif ?>
+						<?php if ($trx->trx_status == 'Canceled') : ?>
+							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->paid_at)) ?>">
+								<h3>Pesanan Dibatalkan</h3>
+								<p>Transaksi anda telah di batalkan, Jika ada masalah terkait orderan silahkan hubungi kami.</p>
+							</li>
+						<?php endif ?>
+						<?php if ($trx->trx_status == 'Paid' || $trx->trx_status == 'On Process' || $trx->trx_status == 'Completed') : ?>
+							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->paid_at)) ?>">
+								<h3>Pesanan Dibayar</h3>
+								<p>Terimakasih telah melakukan pembayaran, Sedang menunggu konfirmasi dari seller.</p>
+							</li>
+						<?php endif ?>
+						<?php if ($trx->trx_status == 'On Process' || $trx->trx_status == 'Completed') : ?>
+							<?php if ($trx->delivery_method == 'Di Jemput') : ?>
+								<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->process_at)) ?>">
+									<h3>Pesanan Siap Diambil</h3>
+									<p>Pesananan anda sudah siap, Silahkan melakukan pengambilan ke toko kami.</p>
+								</li>
+							<?php else : ?>
+								<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->process_at)) ?>">
+									<h3>Pesanan Diproses</h3>
+									<p>Pesanan sedang diproses, selanjutnya pesanan akan langsung diantar ke alamat pengiriman.</p>
+								</li>
+							<?php endif ?>
+						<?php endif ?>
+						<?php if ($trx->trx_status == 'Completed') : ?>
+							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->completed_at)) ?>">
+								<h3>Pesanan Selesai</h3>
+								<p>Pesanan telah diterima, Terimakasih atas pesanannya dan selamat berbelanja kembali:)</p>
+							</li>
+						<?php endif ?>
 					</ul>
 				</div>
 			</div>

@@ -6,6 +6,10 @@ class Transaction extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		if (!check_login()) {
+			$this->session->set_flashdata('error', 'Login terlebih dahulu');
+			redirect('/');
+		}
 		$this->load->model('Transaction_model', 'Transaction');
 	}
 
