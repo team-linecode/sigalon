@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="card shadow-sm border-0">
             <div class="card-body">
-                <h5 class="mb-0 text-primary font-weight-bold">Pendapatan Bersih</h5>
+                <h5 class="mb-0 text-primary font-weight-bold">Pendapatan Kotor</h5>
                 <hr>
                 <div class="row">
                     <!-- Earnings (Annual) Card Example -->
@@ -14,10 +14,10 @@
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Pendapatan</div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($total_pendapatan) ?></div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($gross_income) ?></div>
                                             </div>
                                             <div class="col">
-                                                <small class="mb-0 mr-3 text-success">&nbsp;(<?= number_format($total_pendapatan_trx) ?>)</small>
+                                                <small class="mb-0 mr-3 text-success">&nbsp;(<?= number_format($total_income_trx) ?>)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -38,10 +38,10 @@
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pendapatan Bulan ini</div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($total_pendapatan_bulan) ?></div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($gross_income_month) ?></div>
                                             </div>
                                             <div class="col">
-                                                <small class="mb-0 mr-3 text-primary">&nbsp;(<?= number_format($total_pendapatan_bulan_trx) ?>)</small>
+                                                <small class="mb-0 mr-3 text-primary">&nbsp;(<?= number_format($total_income_month_trx) ?>)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -62,10 +62,10 @@
                                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pendapatan Hari ini</div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp <?= number_format($total_pendapatan_hari) ?></div>
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp <?= number_format($gross_income_day) ?></div>
                                             </div>
                                             <div class="col">
-                                                <small class="mb-0 mr-3 text-info">&nbsp;(<?= number_format($total_pendapatan_hari_trx) ?>)</small>
+                                                <small class="mb-0 mr-3 text-info">&nbsp;(<?= number_format($total_income_day_trx) ?>)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
     <div class="col-lg-12">
         <div class="card shadow-sm border-0">
             <div class="card-body">
-                <h5 class="mb-0 text-primary font-weight-bold">Pendapatan Kotor</h5>
+                <h5 class="mb-0 text-primary font-weight-bold">Pendapatan Bersih</h5>
                 <hr>
                 <div class="row">
                     <!-- Earnings (Annual) Card Example -->
@@ -98,10 +98,10 @@
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Pendapatan</div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($total_pendapatan) ?></div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($total_income) ?></div>
                                             </div>
                                             <div class="col">
-                                                <small class="mb-0 mr-3 text-success">&nbsp;(<?= number_format($total_pendapatan_trx) ?>)</small>
+                                                <small class="mb-0 mr-3 text-success">&nbsp;(<?= number_format($total_income_trx) ?>)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -122,10 +122,10 @@
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Pendapatan Bulan ini</div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($total_pendapatan_bulan) ?></div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($total_income_month) ?></div>
                                             </div>
                                             <div class="col">
-                                                <small class="mb-0 mr-3 text-primary">&nbsp;(<?= number_format($total_pendapatan_bulan_trx) ?>)</small>
+                                                <small class="mb-0 mr-3 text-primary">&nbsp;(<?= number_format($total_income_month_trx) ?>)</small>
                                             </div>
                                         </div>
                                     </div>
@@ -146,10 +146,10 @@
                                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pendapatan Hari ini</div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp <?= number_format($total_pendapatan_hari) ?></div>
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Rp <?= number_format($total_income_day) ?></div>
                                             </div>
                                             <div class="col">
-                                                <small class="mb-0 mr-3 text-info">&nbsp;(<?= number_format($total_pendapatan_hari_trx) ?>)</small>
+                                                <small class="mb-0 mr-3 text-info">&nbsp;(<?= number_format($total_income_day_trx) ?>)</small>
                                             </div>
                                         </div>
                                     </div>
