@@ -199,7 +199,7 @@ class Transaction extends CI_Controller
 
 	public function invoice($no_invoice)
 	{
-		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice);
+		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice)->row();
 		$data['title'] = 'Invoice';
 
 		$this->load->view('layout/admin/header', $data);
@@ -209,7 +209,7 @@ class Transaction extends CI_Controller
 
 	public function print($no_invoice)
 	{
-		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice);
+		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice)->row();
 		echo $this->load->view('admin/transaction/print', $data, TRUE);
 	}
 }

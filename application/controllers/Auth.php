@@ -25,13 +25,15 @@ class Auth extends CI_Controller
 					];
 
 					$this->session->set_userdata($data_session);
-					$this->session->set_flashdata('success', 'Berhasil Login ');
-					redirect('admin');
+					$this->session->set_flashdata('success', 'Berhasil Login');
+					redirect('dashboard');
 				} else {
-					echo "username / password salah 2";
+					$this->session->set_flashdata('success', 'Username / Password salah');
+					redirect('/');
 				}
 			} else {
-				echo "username / password salah 1";
+				$this->session->set_flashdata('success', 'Username / Password salah');
+				redirect('/');
 			}
 		}
 	}

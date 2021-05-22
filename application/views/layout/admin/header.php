@@ -108,7 +108,7 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?= base_url('transaction') ?>">
+					<a class="nav-link" href="<?= base_url('transaction/create') ?>">
 						<i class="fas fa-fw fa-plus-circle"></i>
 						<span>Buat Pesanan</span>
 					</a>

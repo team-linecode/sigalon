@@ -4,7 +4,11 @@
 			<th>#</th>
 			<th>No. Faktur</th>
 			<th>Produk</th>
+			<th>Harga</th>
+			<th>Qty</th>
+			<th>Total</th>
 			<th>Tanggal</th>
+			<th>Status</th>
 			<th>Opsi</th>
 		</tr>
 	</thead>
@@ -14,22 +18,17 @@
 			<tr>
 				<td><?= $no++ ?></td>
 				<td>#<?= $row->no_invoice ?></td>
-				<td>
-					<?= $row->product_name ?><br>
-				</td>
+				<td><?= $row->product_name ?></td>
+				<td>Rp <?= number_format($row->product_price) ?></td>
+				<td><?= $row->qty ?></td>
+				<td>Rp <?= number_format($row->total) ?></td>
 				<td><?= date('F d, Y H:i', strtotime($row->date)) ?></td>
+				<td class="<?= $row->trx_status != 'Canceled' && $row->trx_status != 'Unpaid' ? 'text-success' : 'text-danger' ?>"><?= $row->trx_status ?></td>
 				<td>
 					<a href="<?= base_url('transaction/invoice/' . $row->no_invoice) ?>" class="btn btn-primary btn-sm" title="Cetak Invoice"><i class="fas fa-file-alt"></i></a>
 					<?php if ($row->trx_status == 'Unpaid') : ?>
-						<div class="dropdown d-inline" title="Ubah Status">
-							<button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<?= $row->trx_status ?>
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Paid') ?>">Paid</a>
-								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Canceled') ?>">Canceled</a>
-							</div>
-						</div>
+						<a href="<?= base_url('transaction/change_status/Canceled') ?>" class="btn btn-danger btn-sm" title="Batalkan pesanan"><i class="fas fa-times-circle"></i></a>
+						<a href="https://wa.me/<?= site()->whatsapp ?>" target="_blank" class="btn btn-success btn-sm" title="Bayar melalui konfirmasi whatsapp"><i class="fab fa-whatsapp"></i> Bayar</a>
 					<?php elseif ($row->trx_status == 'Paid') : ?>
 						<div class="dropdown d-inline" title="Ubah Status">
 							<button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,10 +48,6 @@
 								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</a>
 							</div>
 						</div>
-					<?php elseif ($row->trx_status == 'Completed') : ?>
-						<div class="btn btn-success btn-sm disabled"><i class="fas fa-check-circle"></i> Completed</div>
-					<?php else : ?>
-						<div class="btn btn-danger btn-sm disabled"><i class="fas fa-times-circle"></i> Canceled</div>
 					<?php endif ?>
 				</td>
 			</tr>

@@ -24,7 +24,7 @@ class Transaction_model extends CI_Model
 		LEFT JOIN users usr ON trx.id_user=usr.id
 		LEFT JOIN suppliers spl ON trx.id_supplier=spl.id
 		LEFT JOIN payment_methods pm ON trx.id_payment_method=pm.id
-		WHERE $column = $data")->row();
+		WHERE $column = $data");
 
 		return $trx;
 	}
