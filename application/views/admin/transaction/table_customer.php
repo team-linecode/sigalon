@@ -19,7 +19,7 @@
 				<td><?= $no++ ?></td>
 				<td>#<?= $row->no_invoice ?></td>
 				<td><?= $row->product_name ?></td>
-				<td>Rp <?= number_format($row->product_price) ?></td>
+				<td>Rp <?= number_format($row->total / $row->qty) ?></td>
 				<td><?= $row->qty ?></td>
 				<td>Rp <?= number_format($row->total) ?></td>
 				<td><?= date('F d, Y H:i', strtotime($row->date)) ?></td>
