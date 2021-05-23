@@ -6,10 +6,8 @@ class User extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (!check_login()) {
-			$this->session->set_flashdata('error', 'Login terlebih dahulu');
-			redirect('/');
-		}
+		check_login();
+		guard('Admin');
 	}
 
 	public function index()
@@ -97,5 +95,15 @@ class User extends CI_Controller
 		$this->db->delete('users');
 		$this->session->set_flashdata('success', 'Data User berhasil dihapus');
 		redirect('user');
+	}
+
+	public function detail($id)
+	{
+		$data['title'] = 'Users';
+		$data['user'] = $this->db->get_where('users', ['id' => $id])->row();
+		
+		$this->load->view('layout/admin/header', $data);
+		$this->load->view('admin/user/detail', $data);
+		$this->load->view('layout/admin/footer');
 	}
 }

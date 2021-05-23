@@ -2,9 +2,10 @@
 
 class Transaction_model extends CI_Model
 {
-	public function get_where($column, $data)
+	public function get_where($column = null, $data = null)
 	{
 		$trx = $this->db->query("SELECT *,
+		trx.id as trx_id,
 		trx.status as trx_status,
 		trx.type as trx_type,
 		p.name as product_name,

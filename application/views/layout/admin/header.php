@@ -13,7 +13,6 @@
 
 	<!-- Custom fonts for this template-->
 	<link href="<?= base_url('assets/vendor/fontawesome-free/css/all.min.css') ?>" rel="stylesheet" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
 	<!-- Plugins CSS -->
 	<link href="<?= base_url('assets/vendor/datatables/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
@@ -47,17 +46,17 @@
 			<hr class="sidebar-divider">
 
 			<?php if (user()->level == 'Admin') : ?>
-				<!-- Nav Item - Dashboard -->
-				<li class="nav-item">
-					<a class="nav-link" href="<?= base_url('dashboard') ?>">
-						<i class="fas fa-fw fa-tachometer-alt"></i>
-						<span>Dashboard</span></a>
-				</li>
-
 				<!-- Heading -->
 				<div class="sidebar-heading">
 					Admin Menu
 				</div>
+				
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('dashboard') ?>">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Dashboard</span>
+					</a>
+				</li>
 
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('user') ?>">
@@ -68,7 +67,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('product') ?>">
 						<i class="fas fa-fw fa-boxes"></i>
-						<span>Product</span>
+						<span>Barang</span>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -86,7 +85,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('site') ?>">
 						<i class="fas fa-fw fa-globe"></i>
-						<span>Sites</span>
+						<span>Pengaturan Web</span>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -108,8 +107,8 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?= base_url('transaction/create') ?>">
-						<i class="fas fa-fw fa-plus-circle"></i>
+					<a class="nav-link" href="<?= base_url('order/create') ?>">
+						<i class="fas fa-fw fa-plus"></i>
 						<span>Buat Pesanan</span>
 					</a>
 				</li>
@@ -133,7 +132,7 @@
 			<div id="content">
 
 				<!-- Topbar -->
-				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+				<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow-sm">
 
 					<!-- Sidebar Toggle (Topbar) -->
 					<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">

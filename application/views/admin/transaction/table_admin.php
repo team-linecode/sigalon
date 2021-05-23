@@ -27,10 +27,10 @@
 				<td><?= date('d/m/Y H:i', strtotime($row->date)) ?></td>
 				<td class="<?= $row->trx_type == 'in' ? 'text-success' : 'text-danger' ?>"><?= strtoupper($row->trx_type) ?></td>
 				<td>
-					<a href="<?= base_url('transaction/invoice/' . $row->no_invoice) ?>" class="btn btn-primary btn-sm" title="Cetak Invoice"><i class="fas fa-file-alt"></i></a>
+					<a href="<?= base_url('transaction/invoice/' . $row->no_invoice) ?>" class="btn btn-primary btn-sm" title="Lihat Invoice"><i class="fas fa-file-alt"></i></a>
 					<?php if ($row->trx_status == 'Unpaid') : ?>
 						<div class="dropdown d-inline" title="Ubah Status">
-							<button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button class="btn btn-danger btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<?= $row->trx_status ?>
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

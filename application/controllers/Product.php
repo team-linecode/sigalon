@@ -4,20 +4,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Product extends CI_Controller
 {
     public function __construct()
-	{
-		parent::__construct();
-		if (!check_login()) {
-			$this->session->set_flashdata('error', 'Login terlebih dahulu');
-			redirect('/');
-		}
-	}
-    
+    {
+        parent::__construct();
+        check_login();
+        guard('Admin');
+    }
+
     public function index()
     {
         $name = $this->input->post('name');
         $price = $this->input->post('price');
         $id_supplier = $this->input->post('id_supplier');
-        
+
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('price', 'Price', 'required');
         $this->form_validation->set_rules('id_supplier', 'Suppliers', 'required');
@@ -36,7 +34,7 @@ class Product extends CI_Controller
                 'price' => $price,
                 'status' => 'Active'
             ];
-            
+
             $this->db->insert('products', $data);
             $this->session->set_flashdata('success', 'Data Barang berhasil ditambahkan');
             redirect('product/index');
@@ -88,12 +86,12 @@ class Product extends CI_Controller
 
     public function get_supplier($id)
     {
-        $supplier = $this->db->get_where('suppliers', ['id'=> $id])->row();
+        $supplier = $this->db->get_where('suppliers', ['id' => $id])->row();
         $supplier->price = number_format($supplier->price);
         $supplier->liter = number_format($supplier->liter);
         $supplier->stock = number_format($supplier->stock);
         $supplier->unit_price = number_format($supplier->unit_price);
-		header('Content-Type: application/json');
-		echo json_encode($supplier);
+        header('Content-Type: application/json');
+        echo json_encode($supplier);
     }
 }

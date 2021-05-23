@@ -144,7 +144,7 @@
 							</li>
 						<?php endif ?>
 						<?php if ($trx->trx_status == 'Canceled') : ?>
-							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->paid_at)) ?>">
+							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->canceled_at)) ?>">
 								<h3>Pesanan Dibatalkan</h3>
 								<p>Transaksi anda telah di batalkan, Jika ada masalah terkait orderan silahkan hubungi kami.</p>
 							</li>

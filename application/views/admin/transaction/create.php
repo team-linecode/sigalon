@@ -1,6 +1,6 @@
 <div class="row mb-5" id="transaction">
 	<div class="col-lg-12">
-		<div class="card border-0 shadow">
+		<div class="card border-0 shadow-sm">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-lg-4 border-right">

@@ -3,6 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Auth extends CI_Controller
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('Transaction_model', 'Transaction');
+	}
+
 	public function index()
 	{
 		$this->form_validation->set_rules('username', 'Username', 'required');
@@ -26,7 +32,7 @@ class Auth extends CI_Controller
 
 					$this->session->set_userdata($data_session);
 					$this->session->set_flashdata('success', 'Berhasil Login');
-					redirect('dashboard');
+					user()->level == 'Admin' ? redirect('dashboard') : redirect('order');
 				} else {
 					$this->session->set_flashdata('success', 'Username / Password salah');
 					redirect('/');
