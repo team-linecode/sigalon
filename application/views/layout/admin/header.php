@@ -46,17 +46,17 @@
 			<hr class="sidebar-divider">
 
 			<?php if (user()->level == 'Admin') : ?>
-				<!-- Nav Item - Dashboard -->
-				<li class="nav-item">
-					<a class="nav-link" href="<?= base_url('dashboard') ?>">
-						<i class="fas fa-fw fa-tachometer-alt"></i>
-						<span>Dashboard</span></a>
-				</li>
-
 				<!-- Heading -->
 				<div class="sidebar-heading">
 					Admin Menu
 				</div>
+				
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('dashboard') ?>">
+						<i class="fas fa-fw fa-tachometer-alt"></i>
+						<span>Dashboard</span>
+					</a>
+				</li>
 
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('user') ?>">
@@ -67,7 +67,7 @@
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('product') ?>">
 						<i class="fas fa-fw fa-boxes"></i>
-						<span>Product</span>
+						<span>Barang</span>
 					</a>
 				</li>
 				<li class="nav-item">

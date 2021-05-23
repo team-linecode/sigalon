@@ -1,9 +1,9 @@
-<div class="card border-0 shadow-sm">
+<div class="card border-0 shadow-sm mb-5">
 	<div class="card-body p-0">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card-header bg-white">
-					<?php if ($this->session->userdata('level') == 'Admin') : ?>
+					<?php if (user()->level == 'Admin') : ?>
 						<a href="<?= base_url('transaction/create') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</a>
 					<?php else : ?>
 						<a href="<?= base_url('order/create') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Pesanan</a>

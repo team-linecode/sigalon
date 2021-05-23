@@ -1,8 +1,8 @@
-<div class="row mb-3">
+<div class="row mb-4">
     <div class="col-lg-12">
-        <div class="card shadow border-0">
+        <div class="card border-0 shadow-sm">
             <div class="card-header bg-white">
-                <h5 class="mb-0 text-primary font-weight-bold">Tambah Data</h5>
+                <h5 class="mb-0 text-primary">Tambah Data</h5>
             </div>
             <div class="card-body">
                 <form action="<?= base_url('product') ?>" method="POST">
@@ -75,9 +75,10 @@
         </div>
     </div>
 </div>
-<div class="row">
+
+<div class="row mb-5">
     <div class="col-lg-12">
-        <div class="card shadow border-0">
+        <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered datatables">

@@ -168,7 +168,7 @@
 
 <div class="row mb-4">
     <div class="col-lg-12">
-        <div class="card border-0 shadow-sm-sm">
+        <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <h5 class="mb-0 text-primary font-weight-bold">Transaksi Paid</h5>
                 <hr>
@@ -209,7 +209,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <div class="card border-0 shadow-sm-sm">
+        <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <h5 class="mb-0 text-primary font-weight-bold">Transaksi On Process</h5>
                 <hr>

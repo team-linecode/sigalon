@@ -96,4 +96,14 @@ class User extends CI_Controller
 		$this->session->set_flashdata('success', 'Data User berhasil dihapus');
 		redirect('user');
 	}
+
+	public function detail($id)
+	{
+		$data['title'] = 'Users';
+		$data['user'] = $this->db->get_where('users', ['id' => $id])->row();
+		
+		$this->load->view('layout/admin/header', $data);
+		$this->load->view('admin/user/detail', $data);
+		$this->load->view('layout/admin/footer');
+	}
 }
