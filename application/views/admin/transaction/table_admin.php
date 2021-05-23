@@ -34,8 +34,8 @@
 								<?= $row->trx_status ?>
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Paid') ?>">Paid</a>
-								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Canceled') ?>">Canceled</a>
+								<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/Paid') ?>">Paid</button>
+								<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/Canceled') ?>">Canceled</but>
 							</div>
 						</div>
 					<?php elseif ($row->trx_status == 'Paid') : ?>
@@ -44,8 +44,8 @@
 								Paid
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/On_Process') ?>">On Process</a>
-								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</a>
+								<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/On_Process') ?>">On Process</but>
+								<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</but>
 							</div>
 						</div>
 					<?php elseif ($row->trx_status == 'On Process') : ?>
@@ -54,7 +54,7 @@
 								On Proccess
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<a class="dropdown-item" href="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</a>
+								<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</but>
 							</div>
 						</div>
 					<?php elseif ($row->trx_status == 'Completed') : ?>

@@ -1,9 +1,7 @@
 // Datatables
-
 $(".datatables").DataTable();
 
 // Hide and Show Account Number in Payment Method
-
 $('#type').change(function () {
 	var type = $('#type').val()
 	if (type == 'transfer') {
@@ -54,11 +52,15 @@ $('#transaction #type').change(function () {
 		$('#transaction #qty').attr('disabled', 'disabled')
 		$("#transaction #qty").attr('type', 'text').val('1 Tanki')
 
+		$("#transaction #paymentMethodWrapper").hide()
+		$("#transaction #showPaymentMethodWrapper").hide()
 		$("#transaction #deliveryMethod>option:eq(2)").prop('selected', true)
 		$("#transaction #deliveryMethod>option:eq(1)").attr('hidden', 'hidden')
 		$('#transaction #showDeliveryMethod').html($("#transaction #deliveryMethod>option:eq(2)").val())
 		$("#transaction #deliveryMethod").attr('readonly', 'on')
 	} else {
+		$("#transaction #paymentMethodWrapper").show()
+		$("#transaction #showPaymentMethodWrapper").show()
 		$("#transaction #deliveryMethod>option:eq(1)").removeAttr('hidden')
 		$("#transaction #qty").attr('type', 'text').val('')
 	}
