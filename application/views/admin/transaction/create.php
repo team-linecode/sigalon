@@ -33,7 +33,7 @@
 								<input type="number" class="form-control" name="qty" id="qty" value="<?= set_value('qty') ?>" disabled>
 								<?= form_error('qty', '<small class="text-danger">', '</small>'); ?>
 							</div>
-							<div class="form-group">
+							<div class="form-group" id="paymentMethodWrapper">
 								<label>Metode Pembayaran</label>
 								<select class="custom-select" name="payment_method" id="paymentMethod">
 									<option value="" hidden>Pilih Metode Pembayaran</option>
@@ -76,13 +76,15 @@
 								<td id="total">0</td>
 							</tr>
 						</table>
-						<h5 class="text-primary font-weight-bold">Pembayaran</h5>
-						<table class="table table-bordered">
-							<tr>
-								<th>Metode Pembayaran</th>
-								<td id="showPaymentMethod">-</td>
-							</tr>
-						</table>
+						<div id="showPaymentMethodWrapper">
+							<h5 class="text-primary font-weight-bold">Pembayaran</h5>
+							<table class="table table-bordered">
+								<tr>
+									<th>Metode Pembayaran</th>
+									<td id="showPaymentMethod">-</td>
+								</tr>
+							</table>
+						</div>
 						<h5 class="text-primary font-weight-bold">Pengiriman</h5>
 						<table class="table table-bordered">
 							<tr>

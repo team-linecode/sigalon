@@ -25,9 +25,9 @@ class Transaction extends CI_Controller
 		$this->form_validation->set_rules('type', 'Type', 'required');
 		$this->form_validation->set_rules('user', 'User', 'required');
 		$this->form_validation->set_rules('product', 'Product', 'required');
-		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 		$this->form_validation->set_rules('delivery_method', 'Delivery Method', 'required');
 		if ($this->input->post('type') == 'out') {
+			$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 			$this->form_validation->set_rules('qty', 'Quantity', 'required');
 		}
 
@@ -41,18 +41,21 @@ class Transaction extends CI_Controller
 			$this->load->view('admin/transaction/create', $data);
 			$this->load->view('layout/admin/footer');
 		} else {
-			$product = $this->db->get_where('products', ['id' => $this->input->post('product')])->row();
+			$id_product = $this->input->post('product');
+			$product = $this->db->query("SELECT *, p.price as p_price FROM products p JOIN suppliers spl ON p.id_supplier=spl.id WHERE p.id='$id_product'")->row();
 			$no_invoice = rand(111111, 999999);
 			$status = 'Unpaid';
-			$total = $product->price * $this->input->post('qty');
+			$qty = $this->input->post('qty');
+			$total = $product->p_price * $this->input->post('qty');
 			$type = $this->input->post('type');
 
 			$data = [
 				'no_invoice' => $no_invoice,
 				'id_product' => $this->input->post('product'),
-				'qty' => $this->input->post('qty'),
+				'qty' => $qty,
 				'total' => $total,
-				'id_payment_method' => $this->input->post('payment_method'),
+				'income' => ($total - $product->unit_price * $qty),
+				'id_payment_method' => empty($this->input->post('payment_method')) ? null : $this->input->post('payment_method'),
 				'date' => date('Y-m-d H:i:s'),
 				'delivery_method' => $this->input->post('delivery_method'),
 				'status' => $status,
@@ -74,7 +77,7 @@ class Transaction extends CI_Controller
 
 	public function change_status($id, $status)
 	{
-		$trx = $this->db->query("SELECT *, spl.stock as supplier_stock, p.stock as product_stock, p.id as product_id FROM transactions trx LEFT JOIN users usr ON trx.id_user = usr.id LEFT JOIN suppliers spl ON trx.id_supplier = spl.id JOIN products p ON trx.id_product = p.id WHERE trx.id = '$id'")->row();
+		$trx = $this->Transaction->get_where('trx.id', $id)->row();
 
 		if ($status == 'Paid') {
 			if ($trx->type == 'in') {
@@ -93,6 +96,9 @@ class Transaction extends CI_Controller
 			$this->db->set('process_at', date('Y-m-d H:i:s'));
 			$status = 'On Process';
 		} else if ($status == 'Completed') {
+			if ($trx->process_at == null) {
+				$this->db->set('process_at', date('Y-m-d H:i:s'));
+			}
 			$this->db->set('completed_at', date('Y-m-d H:i:s'));
 		}
 

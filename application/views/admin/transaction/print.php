@@ -126,15 +126,17 @@
 	</div>
 
 	<div class="row justify-content-between mb-4">
-		<div class="col-4">
-			<h6 class="font-weight-bold">Metode Pembayaran</h6>
-			<p class="text-muted mb-3"><?= $trx->method_name ?></p>
-			<?php if ($trx->method_type == 'transfer') : ?>
-				<span class="text-dark font-weight-bold">No. Rekening : </span><span class="text-muted mb-0"><?= $trx->acc_number ?></span><br>
-				<span class="text-dark font-weight-bold">Atas nama : </span><span class="text-muted mb-0"><?= $trx->acc_name ?></span>
-			<?php endif ?>
-		</div>
-		<div class="col-4">
+		<?php if ($trx->trx_type == 'out') : ?>
+			<div class="col-4">
+				<h6 class="font-weight-bold">Metode Pembayaran</h6>
+				<p class="text-muted mb-3"><?= $trx->method_name ?></p>
+				<?php if ($trx->method_type == 'transfer') : ?>
+					<span class="text-dark font-weight-bold">No. Rekening : </span><span class="text-muted mb-0"><?= $trx->acc_number ?></span><br>
+					<span class="text-dark font-weight-bold">Atas nama : </span><span class="text-muted mb-0"><?= $trx->acc_name ?></span>
+				<?php endif ?>
+			</div>
+		<?php endif ?>
+		<div class="<?= $trx->trx_type == 'out' ? 'col-4' : 'col-6' ?>">
 			<h6 class="font-weight-bold">Status Pembayaran</h6>
 			<p class="text-muted mb-0">
 				<?= $trx->trx_status ?>
@@ -145,7 +147,7 @@
 				<?php endif ?>
 			</p>
 		</div>
-		<div class="col-4">
+		<div class="<?= $trx->trx_type == 'out' ? 'col-4' : 'col-6' ?>">
 			<h6 class="text-right font-weight-bold">Total Bayar</h6>
 			<h3 class="text-right font-weight-bold mb-0">Rp <?= $trx->total != 0 ? number_format($trx->total, 0, '.', '.') : number_format($trx->supplier_price, 0, '.', '.') ?></h3>
 		</div>
