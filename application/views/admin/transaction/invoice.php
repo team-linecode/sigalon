@@ -1,6 +1,6 @@
 <div class="row" style="color: #000 !important">
 	<div class="col mb-5">
-		<div class="card border-0 shadow-sm">
+		<div class="card border-0 shadow-sm-sm">
 			<div class="card-body">
 				<div class="row justify-content-between mb-3">
 					<div class="col-lg-6">
@@ -132,7 +132,7 @@
 
 <div class="row mb-5">
 	<div class="col-md-12">
-		<div class="card border-0 shadow-sm">
+		<div class="card border-0 shadow-sm-sm">
 			<div class="card-body">
 				<h6 class="card-title">Tracking</h6>
 				<div id="content">
@@ -144,7 +144,7 @@
 							</li>
 						<?php endif ?>
 						<?php if ($trx->trx_status == 'Canceled') : ?>
-							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->paid_at)) ?>">
+							<li class="event" data-date="<?= date('M d, Y H:i', strtotime($trx->canceled_at)) ?>">
 								<h3>Pesanan Dibatalkan</h3>
 								<p>Transaksi anda telah di batalkan, Jika ada masalah terkait orderan silahkan hubungi kami.</p>
 							</li>

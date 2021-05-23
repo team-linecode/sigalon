@@ -1,4 +1,4 @@
-<div class="card border-0 shadow">
+<div class="card border-0 shadow-sm">
 	<div class="card-header bg-white">
 		<h5 class="text-primary mb-0">Tambah User</h5>
 	</div>

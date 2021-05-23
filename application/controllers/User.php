@@ -6,10 +6,8 @@ class User extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if (!check_login()) {
-			$this->session->set_flashdata('error', 'Login terlebih dahulu');
-			redirect('/');
-		}
+		check_login();
+		guard('Admin');
 	}
 
 	public function index()

@@ -25,9 +25,9 @@
 				<td><?= date('F d, Y H:i', strtotime($row->date)) ?></td>
 				<td class="<?= $row->trx_status != 'Canceled' && $row->trx_status != 'Unpaid' ? 'text-success' : 'text-danger' ?>"><?= $row->trx_status ?></td>
 				<td>
-					<a href="<?= base_url('transaction/invoice/' . $row->no_invoice) ?>" class="btn btn-primary btn-sm" title="Cetak Invoice"><i class="fas fa-file-alt"></i></a>
+					<a href="<?= base_url('transaction/invoice/' . $row->no_invoice) ?>" class="btn btn-primary btn-sm" title="Lihat Invoice"><i class="fas fa-file-alt"></i></a>
 					<?php if ($row->trx_status == 'Unpaid') : ?>
-						<a href="<?= base_url('transaction/change_status/Canceled') ?>" class="btn btn-danger btn-sm" title="Batalkan pesanan"><i class="fas fa-times-circle"></i></a>
+						<button data-target="<?= base_url('order/change_status/' . $row->trx_id . '/Canceled') ?>" class="confirm-status btn btn-danger btn-sm" title="Batalkan pesanan"><i class="fas fa-times-circle"></i></button>
 						<a href="https://wa.me/<?= site()->whatsapp ?>" target="_blank" class="btn btn-success btn-sm" title="Bayar melalui konfirmasi whatsapp"><i class="fab fa-whatsapp"></i> Bayar</a>
 					<?php elseif ($row->trx_status == 'Paid') : ?>
 						<div class="dropdown d-inline" title="Ubah Status">
