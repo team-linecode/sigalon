@@ -11,17 +11,8 @@ class Site extends CI_Controller
 			redirect('/');
 		}
 	}
-    
-    public function index()
-    {
-        $data['title'] = 'Data Website';
-        $data['site'] = $this->db->get('sites')->result();
-        $this->load->view('layout/admin/header', $data);
-        $this->load->view('admin/site/index');
-        $this->load->view('layout/admin/footer');
-    }
 
-    public function edit($id)
+    public function index()
     {
         $company_name = $this->input->post('company_name');
         $company_address = $this->input->post('company_address');
@@ -32,10 +23,10 @@ class Site extends CI_Controller
         $instagram = $this->input->post('instagram');
         $line = $this->input->post('line');
 
-        $data['site'] = $this->db->get_where('sites', ['id' => $id])->row();
-        $data['title'] = 'Ubah Data Website';
+        $data['site'] = $this->db->get('sites')->row();
+        $data['title'] = 'Data Website';
         $this->load->view('layout/admin/header', $data);
-        $this->load->view('admin/site/edit');
+        $this->load->view('admin/site/index');
         $this->load->view('layout/admin/footer');
 
         if ($_POST) {
@@ -50,7 +41,6 @@ class Site extends CI_Controller
                 'line' => $line
             ];
 
-            $this->db->where('id', $id);
             $this->db->update('sites', $data);
 
             $this->session->set_flashdata('success', 'Data Website berhasil diubah');
