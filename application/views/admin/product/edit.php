@@ -35,9 +35,9 @@
                                 </select>
                                 <?= form_error('id_supplier', '<small class="text-danger">', '</small>') ?>
                             </div>
-                            <div class="button-group">
-                                <a href="<?= base_url('product') ?>" class="btn btn-danger btn-sm float-right ml-1"><i class="fas fa-times"></i> Batal</a>
-                                <button class="btn btn-sm btn-primary float-right"><i class="fas fa-save"></i> Simpan Perubahan</button>
+                            <div class="d-flex justify-content-end">
+                                <a href="<?= base_url('product') ?>" class="btn btn-danger btn-sm mr-1"><i class="fas fa-times"></i> Batal</a>
+                                <button class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Simpan</button>
                             </div>
                         </div>
                         <div class="col-lg-8">
