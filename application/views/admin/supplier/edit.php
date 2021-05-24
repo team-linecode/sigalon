@@ -5,7 +5,7 @@
                 <h5 class="mb-0 text-primary">Tambah Data</h5>
             </div>
             <div class="card-body">
-                <form action="<?= base_url('supplier/edit/'.$suppliers->id) ?>" method="POST">
+                <form action="<?= base_url('supplier/edit/' . $suppliers->id) ?>" method="POST">
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
@@ -52,7 +52,10 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-primary float-right"><i class="fas fa-save"></i> Simpan</button>
+                    <div class="d-flex justify-content-end">
+                        <a href="<?= base_url('supplier') ?>" class="btn btn-sm btn-danger mr-1"><i class="fas fa-times"></i> Batal</a>
+                        <button class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                    </div>
                 </form>
             </div>
         </div>
