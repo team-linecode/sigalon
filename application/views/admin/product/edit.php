@@ -5,7 +5,7 @@
                 <h5 class="mb-0 text-primary  font-weight-bold">Edit Data</h5>
             </div>
             <div class="card-body">
-                <form action="<?= base_url('product/edit/' . $products->product_id) ?>" method="POST">
+                <form action="<?= base_url('product/edit/' . $products->product_id) ?>" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-4 border-right mb-3">
                             <div class="form-group">
@@ -34,6 +34,11 @@
                                     <?php } ?>
                                 </select>
                                 <?= form_error('id_supplier', '<small class="text-danger">', '</small>') ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Gambar</label>
+                                <input type="file" name="product_image" class="form-control">
+                                <?= form_error('product_image', '<small class="text-danger">', '</small>') ?>
                             </div>
                             <div class="d-flex justify-content-end">
                                 <a href="<?= base_url('product') ?>" class="btn btn-danger btn-sm mr-1"><i class="fas fa-times"></i> Batal</a>
@@ -73,6 +78,12 @@
                                     <tr>
                                         <th>Modal/Galon</th>
                                         <td id="unitpriceSupplier">Rp <?= number_format($products->unit_price) ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gambar</th>
+                                        <td>
+                                            <img src="<?= base_url('assets/img/product/' . $products->image) ?>" class="img-80">
+                                        </td>
                                     </tr>
                                 </table>
                             </div>

@@ -57,6 +57,7 @@ class Product extends CI_Controller
 
     public function edit($id)
     {
+        $data['products'] = $this->db->query("SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
         $name = $this->input->post('name');
         $id_supplier = $this->input->post('id_supplier');
         $price = $this->input->post('price');
@@ -69,17 +70,35 @@ class Product extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Edit Barang';
-            $data['products'] = $this->db->query("SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
             $data['suppliers'] = $this->db->get('suppliers')->result();
             $this->load->view('layout/admin/header', $data);
             $this->load->view('admin/product/edit');
             $this->load->view('layout/admin/footer');
         } else {
+            if (!empty($_FILES['product_image']['name'])) {
+                $config['upload_path'] = './assets/img/product/';
+                $config['file_name'] = rand(111111, 999999);
+                $config['allowed_types'] = 'jpg|jpeg|png';
+                $config['max_size'] = 2048;
+
+                $this->load->library('upload', $config);
+
+                if (!$this->upload->do_upload('product_image')) {
+                    $error = ['error' => $this->upload->display_errors()];
+                    $this->session->set_flashdata('error', $error);
+                    redirect('product/index');
+                } else {
+                    unlink('./assets/img/product/' . $data['products']->image);
+                    $filename = $this->upload->data("file_name");
+                }
+            }
+
             $data = [
                 'name' => $name,
                 'id_supplier' => $id_supplier,
                 'status' => $status,
-                'price' => $price
+                'price' => $price,
+                'image' => isset($filename) ? $filename : $data['product']->image
             ];
 
             $this->db->where('id', $id);
