@@ -82,7 +82,7 @@ class Transaction extends CI_Controller
 		$trx = $this->Transaction->get_where('trx.id', $id)->row();
 
 		if ($status == 'Paid') {
-			if ($trx->type == 'in') {
+			if ($trx->trx_type == 'in') {
 				$product_stock = ($trx->product_stock + $trx->supplier_stock);
 			} else {
 				$product_stock = ($trx->product_stock - $trx->qty);
