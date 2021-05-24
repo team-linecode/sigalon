@@ -1,5 +1,18 @@
 <div class="row" style="color: #000 !important">
 	<div class="col mb-5">
+		<?php if ($this->session->flashdata('alert-success')) : ?>
+			<div class="alert alert-success">
+				<?= $this->session->flashdata('alert-success') ?>
+			</div>
+		<?php endif ?>
+		<?php if ($trx->trx_status == 'Unpaid' && $trx->trx_type == 'out') : ?>
+			<div class="alert alert-success">
+				<h4>Pesanan Berhasil Dibuat</h4>
+				Silahkan konfirmasi pembayaran melalui whatsapp dengan menekan tombol <b>"Bayar"</b> dibawah.<br>
+				<b>No Faktur</b> : #<?= $trx->no_invoice ?><br>
+				<b>Jumlah yang harus dibayar</b> : Rp <?= number_format($trx->total, 0, '.', '.') ?>
+			</div>
+		<?php endif ?>
 		<div class="card border-0 shadow-sm">
 			<div class="card-body">
 				<div class="row justify-content-between mb-3">
@@ -125,7 +138,10 @@
 				</div>
 
 				<div class="d-flex justify-content-end">
-					<button onclick="print(<?= $trx->no_invoice ?>)" class="btn btn-success"><i class="fas fa-print"></i> Print</button>
+					<button onclick="print(<?= $trx->no_invoice ?>)" class="btn btn-info mr-2"><i class="fas fa-print"></i> Print</button>
+					<?php if ($trx->trx_status == 'Unpaid') : ?>
+						<a href="https://wa.me/<?= site()->whatsapp ?>" target="_blank" class="btn btn-success" title="Konfirmasi Pembayaran Melalui Whatsapp"><i class="fab fa-whatsapp"></i> Bayar</a>
+					<?php endif ?>
 				</div>
 			</div>
 		</div>

@@ -28,11 +28,25 @@ class Product extends CI_Controller
             $this->load->view('admin/product/index');
             $this->load->view('layout/admin/footer');
         } else {
+            $config['upload_path'] = './assets/img/product/';
+            $config['file_name'] = rand(111111, 999999);
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size'] = 2048;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('product_image')) {
+                $error = ['error' => $this->upload->display_errors()];
+                $this->session->set_flashdata('error', $error);
+                redirect('product/index');
+            }
+
             $data = [
                 'name' => $name,
                 'id_supplier' => $id_supplier,
                 'price' => $price,
-                'status' => 'Active'
+                'status' => 'Active',
+                'image' => $this->upload->data("file_name")
             ];
 
             $this->db->insert('products', $data);

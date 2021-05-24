@@ -40,9 +40,10 @@ class Order extends CI_Controller
 		} else {
 			$product = $this->db->get_where('products', ['id' => $this->input->post('product')])->row();
 			$total = $product->price * $this->input->post('qty');
+			$no_invoice = rand(111111, 999999);
 
 			$data = [
-				'no_invoice' => rand(111111, 999999),
+				'no_invoice' => $no_invoice,
 				'id_product' => $this->input->post('product'),
 				'id_user' => $this->session->userdata('id_user'),
 				'qty' => $this->input->post('qty'),
@@ -56,8 +57,13 @@ class Order extends CI_Controller
 
 			$this->db->insert('transactions', $data);
 
-			$this->session->set_flashdata('success', 'Pesanan berhasil dibuat');
-			redirect('order');
+			$this->session->set_flashdata('alert-success', '
+			<h4>Pesanan Berhasil Dibuat</h4>
+			Silahkan konfirmasi pembayaran melalui whatsapp dengan menekan tombol <b>"Bayar"</b> dibawah.<br>
+			<b>No Faktur</b> : #' . $no_invoice . '<br>
+			<b>Jumlah yang harus dibayar</b> : Rp ' . number_format($total) . '
+			');
+			redirect('transaction/invoice/' . $no_invoice);
 		}
 	}
 

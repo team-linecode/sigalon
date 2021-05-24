@@ -5,7 +5,7 @@
                 <h5 class="mb-0 text-primary">Tambah Data</h5>
             </div>
             <div class="card-body">
-                <form action="<?= base_url('product') ?>" method="POST">
+                <form action="<?= base_url('product') ?>" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-lg-4 border-right mb-3">
                             <div class="form-group">
@@ -27,6 +27,11 @@
                                     <?php } ?>
                                 </select>
                                 <?= form_error('id_supplier', '<small class="text-danger">', '</small>') ?>
+                            </div>
+                            <div class="form-group">
+                                <label>Gambar</label>
+                                <input type="file" name="product_image" class="form-control">
+                                <?= form_error('product_image', '<small class="text-danger">', '</small>') ?>
                             </div>
                             <div id="data_supplier"></div>
                             <button class="btn btn-sm btn-primary float-right"><i class="fas fa-save"></i> Simpan</button>
@@ -85,6 +90,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Gambar</th>
                                 <th>Nama</th>
                                 <th>Harga</th>
                                 <th>Supplier</th>
@@ -98,6 +104,9 @@
                             foreach ($products as $row) { ?>
                                 <tr class="text-center">
                                     <td>1</td>
+                                    <td>
+                                        <img src="<?= base_url('assets/img/product/' . $row->image) ?>" class="img-50">
+                                    </td>
                                     <td class="text-left"><?= $row->product_name; ?></td>
                                     <td>Rp <?= number_format($row->product_price); ?></td>
                                     <td class="text-left"><?= $row->supplier_name; ?></td>

@@ -134,7 +134,8 @@ $('#transaction #product').change(function () {
 				Nama : ` + result.product_name + `<br>
 				Supplier : ` + result.supplier_name + `<br>
 				Harga satuan : Rp ` + result.product_price + `<br>
-				Stok tersisa : ` + result.product_stock + `
+				Stok tersisa : ` + result.product_stock + `<br>
+				<img src="` + BASE_URL + `assets/img/product/` + result.image + `" class="img-80">
 			`)
 			if ($type == 'out') {
 				$("#transaction #qty").attr('max', result.stock)
