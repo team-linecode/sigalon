@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ArticleCategory;
+
 function check_login()
 {
 	$ci = &get_instance();
