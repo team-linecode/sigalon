@@ -8,11 +8,6 @@ class Transaction_model extends CI_Model
 		trx.id as trx_id,
 		trx.status as trx_status,
 		trx.type as trx_type,
-		p.id as product_id,
-		p.name as product_name,
-		p.price as product_price,
-		p.stock as product_stock,
-		p.status as product_status,
 		usr.name as user_name,
 		usr.phone as user_phone,
 		usr.address as user_address,
@@ -23,11 +18,10 @@ class Transaction_model extends CI_Model
 		pm.type as method_type,
 		pm.name as method_name
 		FROM transactions trx
-		LEFT JOIN products p ON trx.id_product=p.id
 		LEFT JOIN users usr ON trx.id_user=usr.id
 		LEFT JOIN suppliers spl ON trx.id_supplier=spl.id
 		LEFT JOIN payment_methods pm ON trx.id_payment_method=pm.id
-		WHERE $column = $data");
+		WHERE $column = $data ORDER BY trx.id DESC");
 
 		return $trx;
 	}

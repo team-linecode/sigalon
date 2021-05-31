@@ -68,3 +68,10 @@ function site()
 	$ci = &get_instance();
 	return $ci->db->get('sites')->row();
 }
+
+function count_my_carts()
+{
+	$ci = &get_instance();
+	$ci->load->model('User_model', 'User');
+	return $ci->User->carts()->num_rows();
+}

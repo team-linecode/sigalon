@@ -7,11 +7,12 @@ class Product extends CI_Controller
     {
         parent::__construct();
         check_login();
-        guard('Admin');
     }
 
     public function index()
     {
+        guard('Admin');
+
         $name = $this->input->post('name');
         $price = $this->input->post('price');
         $id_supplier = $this->input->post('id_supplier');
@@ -57,6 +58,8 @@ class Product extends CI_Controller
 
     public function edit($id)
     {
+        guard('Admin');
+
         $data['products'] = $this->db->query("SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id FROM products JOIN suppliers ON products.id_supplier = suppliers.id WHERE products.id = '$id'")->row();
         $name = $this->input->post('name');
         $id_supplier = $this->input->post('id_supplier');
@@ -111,6 +114,8 @@ class Product extends CI_Controller
 
     public function delete($id)
     {
+        guard('Admin');
+
         $this->db->where('id', $id);
         $this->db->delete('products');
         $this->session->set_flashdata('success', 'Data Barang berhasil dihapus');
@@ -119,6 +124,8 @@ class Product extends CI_Controller
 
     public function get_supplier($id)
     {
+        guard('Admin');
+
         $supplier = $this->db->get_where('suppliers', ['id' => $id])->row();
         $supplier->price = number_format($supplier->price);
         $supplier->liter = number_format($supplier->liter);
@@ -126,5 +133,16 @@ class Product extends CI_Controller
         $supplier->unit_price = number_format($supplier->unit_price);
         header('Content-Type: application/json');
         echo json_encode($supplier);
+    }
+
+    public function list()
+    {
+        guard('Customer');
+        
+        $data['title'] = 'Produk';
+        $data['products'] = $this->db->get('products')->result();
+        $this->load->view('layout/admin/header', $data);
+        $this->load->view('admin/product/list');
+        $this->load->view('layout/admin/footer');
     }
 }

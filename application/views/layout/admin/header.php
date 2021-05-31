@@ -101,6 +101,19 @@
 				</div>
 
 				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('product/list') ?>">
+						<i class="fas fa-fw fa-boxes"></i>
+						<span>Produk</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('cart') ?>">
+						<i class="fas fa-fw fa-shopping-cart"></i>
+						<span>Keranjang</span>
+						<small class="badge badge-warning"><?= count_my_carts() ?></small>
+					</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('order') ?>">
 						<i class="fas fa-fw fa-shopping-cart"></i>
 						<span>Pesanan Saya</span>
