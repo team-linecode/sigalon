@@ -15,7 +15,8 @@ class Transaction extends CI_Controller
 		guard(['Admin', 'Customer']);
 
 		$data['title'] = 'Transaksi';
-		$data['transactions'] = $this->Transaction->get_where('id_user', user()->id)->result();
+		$data['transactions'] = $this->Transaction->get_where()->result();
+
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/transaction/index', $data);
 		$this->load->view('layout/admin/footer');
@@ -88,11 +89,14 @@ class Transaction extends CI_Controller
 			if ($trx->trx_type == 'in') {
 				$product_stock = ($trx->product_stock + $trx->supplier_stock);
 			} else {
-				$product_stock = ($trx->product_stock - $trx->qty);
+				foreach ($this->Transaction->products($trx->trx_id)->result() as $product) {
+					$p = $this->db->get_where('products', ['id' => $product->product_id])->row();
+					$stock = ($p->stock - $product->qty);
+					$this->db->set('stock', $stock);
+					$this->db->where('id', $product->product_id);
+					$this->db->update('products');
+				}
 			}
-			$this->db->set('stock', $product_stock);
-			$this->db->where('id', $trx->product_id);
-			$this->db->update('products');
 
 			$this->db->set('paid_at', date('Y-m-d H:i:s'));
 		} else if ($status == 'Canceled') {
@@ -218,7 +222,15 @@ class Transaction extends CI_Controller
 	{
 		guard(['Admin', 'Customer']);
 		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice)->row();
+		$id_transaction = $data['trx']->trx_id;
+		$data['trx_products'] = $this->Transaction->products($id_transaction)->result();
+		// var_dump($data['trx_products']); die;
 		$data['title'] = 'Invoice';
+
+		$data['total'] = 0;
+		foreach ($data['trx_products'] as $product) {
+			$data['total'] += ($product->product_price * $product->qty);
+		}
 
 		$this->load->view('layout/admin/header', $data);
 		$this->load->view('admin/transaction/invoice', $data);
@@ -229,6 +241,14 @@ class Transaction extends CI_Controller
 	{
 		guard(['Admin', 'Customer']);
 		$data['trx'] = $this->Transaction->get_where('no_invoice', $no_invoice)->row();
+		$id_transaction = $data['trx']->trx_id;
+		$data['trx_products'] = $this->Transaction->products($id_transaction)->result();
+
+		$data['total'] = 0;
+		foreach ($data['trx_products'] as $product) {
+			$data['total'] += ($product->product_price * $product->qty);
+		}
+
 		echo $this->load->view('admin/transaction/print', $data, TRUE);
 	}
 }

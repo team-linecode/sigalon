@@ -105,20 +105,26 @@
 			<div class="table-responsive">
 				<table class="table table-bordered">
 					<tr>
+						<th>#</th>
 						<th>Produk</th>
 						<th>Harga</th>
 						<th>Qty</th>
 						<th>Total</th>
 					</tr>
+					<?php
+					$no = 1;
+					foreach ($trx_products as $product) : ?>
+						<tr>
+							<td><?= $no++ ?></td>
+							<td><?= $product->product_name ?></td>
+							<td>Rp <?= number_format($product->product_price) ?></td>
+							<td><?= number_format($product->qty) ?></td>
+							<td>Rp <?= number_format($product->product_price * $product->qty) ?></td>
+						</tr>
+					<?php endforeach ?>
 					<tr>
-						<td><?= $trx->product_name ?></td>
-						<?php if ($trx->trx_type == 'in') : ?>
-							<td>Rp <?= number_format($trx->supplier_price, 0, '.', '.') ?></td>
-						<?php else : ?>
-							<td>Rp <?= number_format($trx->product_price, 0, '.', '.') ?></td>
-						<?php endif ?>
-						<td><?= $trx->qty ?? '1 Tanki / ' . $trx->liter . ' liter' ?></td>
-						<td>Rp <?= $trx->total != 0 ? number_format($trx->total, 0, '.', '.') : number_format($trx->supplier_price, 0, '.', '.') ?></td>
+						<th colspan="4" class="text-right">Total :</th>
+						<td>Rp <?= number_format($total) ?></td>
 					</tr>
 				</table>
 			</div>
@@ -149,13 +155,9 @@
 		</div>
 		<div class="<?= $trx->trx_type == 'out' ? 'col-4' : 'col-6' ?>">
 			<h6 class="text-right font-weight-bold">Total Bayar</h6>
-			<h3 class="text-right font-weight-bold mb-0">Rp <?= $trx->total != 0 ? number_format($trx->total, 0, '.', '.') : number_format($trx->supplier_price, 0, '.', '.') ?></h3>
+			<h3 class="text-right font-weight-bold mb-0">Rp <?= $total != 0 ? number_format($total) : number_format($trx->supplier_price) ?></h3>
 		</div>
 	</div>
 </body>
-
-<script>
-	window.print
-</script>
 
 </html>

@@ -4,7 +4,8 @@
 			<th>#</th>
 			<th>No. Faktur</th>
 			<th>User</th>
-			<th>Produk</th>
+			<th>Jumlah Produk</th>
+			<th>Total</th>
 			<th>Tanggal</th>
 			<th>Tipe</th>
 			<th>Opsi</th>
@@ -21,8 +22,16 @@
 					<small class="text-primary"><?= $row->phone ?? $row->supplier_phone ?></small>
 				</td>
 				<td>
-					<?= $row->product_name ?><br>
-					<small class="text-primary"><?= $row->supplier_name ?></small>
+					<?= $this->Transaction->products($row->trx_id)->num_rows(); ?><br>
+				</td>
+				<td>
+					<?php
+					$total_price = 0;
+					foreach ($this->Transaction->products($row->trx_id)->result() as $product) {
+						$total_price += ($product->product_price * $product->qty);
+					}
+					?>
+					Rp <?= number_format($total_price); ?>
 				</td>
 				<td><?= date('d/m/Y H:i', strtotime($row->date)) ?></td>
 				<td class="<?= $row->trx_type == 'in' ? 'text-success' : 'text-danger' ?>"><?= strtoupper($row->trx_type) ?></td>
@@ -45,7 +54,7 @@
 							</button>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 								<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/On_Process') ?>">On Process</but>
-								<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</but>
+									<button class="dropdown-item confirm-status" data-target="<?= base_url('transaction/change_status/' . $row->trx_id . '/Completed') ?>">Completed</but>
 							</div>
 						</div>
 					<?php elseif ($row->trx_status == 'On Process') : ?>
