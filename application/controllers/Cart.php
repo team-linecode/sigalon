@@ -14,6 +14,11 @@ class Cart extends CI_Controller
 
     public function index()
     {
+        if ($this->User->carts()->num_rows() == 0) {
+            $this->session->set_flashdata('error', 'Keranjang kosong, Silahkan pilih produk.');
+            redirect('product/list');
+        }
+
         $data['title'] = 'Keranjang';
         $data['carts'] = $this->User->carts()->result();
         $data['payment_methods'] = $this->db->get('payment_methods')->result();
@@ -87,7 +92,7 @@ class Cart extends CI_Controller
             $this->db->delete('carts');
 
             $this->session->set_flashdata('success', 'Transaksi berhasil dibuat');
-            redirect('transaction');
+            redirect('transaction/invoice/' . $no_invoice);
         }
     }
 }

@@ -34,11 +34,11 @@ class Auth extends CI_Controller
 					$this->session->set_flashdata('success', 'Berhasil Login');
 					user()->level == 'Admin' ? redirect('dashboard') : redirect('order');
 				} else {
-					$this->session->set_flashdata('success', 'Username / Password salah');
+					$this->session->set_flashdata('error', 'Username / Password salah');
 					redirect('/');
 				}
 			} else {
-				$this->session->set_flashdata('success', 'Username / Password salah');
+				$this->session->set_flashdata('error', 'Username / Password salah');
 				redirect('/');
 			}
 		}

@@ -4,9 +4,9 @@
 			<div class="col-lg-12">
 				<div class="card-header bg-white">
 					<?php if (user()->level == 'Admin') : ?>
-						<a href="<?= base_url('transaction/create') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</a>
+						<a href="<?= base_url('transaction/create') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Transaksi Masuk</a>
 					<?php else : ?>
-						<a href="<?= base_url('order/create') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Buat Pesanan</a>
+						<a href="<?= base_url('product/list') ?>" class="btn btn-primary"><i class="fas fa-plus"></i> Beli Produk</a>
 					<?php endif ?>
 				</div>
 				<div class="card-body">

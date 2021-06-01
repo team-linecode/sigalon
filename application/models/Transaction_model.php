@@ -51,9 +51,12 @@ class Transaction_model extends CI_Model
 		return $this->db->query("SELECT *,
 		p.id as product_id,
 		p.name as product_name,
-		p.price as product_price
+		p.price as product_price,
+		spl.price as supplier_price,
+		spl.stock as supplier_stock
 		FROM transaction_products trxp
-		JOIN products p ON trxp.id_product=p.id
+		JOIN products p ON trxp.id_product = p.id
+		JOIN suppliers spl ON p.id_supplier = spl.id
 		WHERE id_transaction='$id_transaction'");
 	}
 }

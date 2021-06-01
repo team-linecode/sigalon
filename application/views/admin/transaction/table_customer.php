@@ -3,6 +3,7 @@
 		<tr>
 			<th>#</th>
 			<th>No. Faktur</th>
+			<th>Jumlah Produk</th>
 			<th>Total</th>
 			<th>Tanggal</th>
 			<th>Status</th>
@@ -15,7 +16,16 @@
 			<tr>
 				<td><?= $no++ ?></td>
 				<td>#<?= $row->no_invoice ?></td>
-				<td>0</td>
+				<td class="text-center">
+					<?= $this->Transaction->products($row->trx_id)->num_rows(); ?><br>
+				</td>
+				<td>
+					<?php $total_price = 0;
+					foreach ($this->Transaction->products($row->trx_id)->result() as $product) {
+						$total_price += ($product->product_price * $product->qty);
+					} ?>
+					Rp <?= number_format($total_price); ?>
+				</td>
 				<td><?= date('F d, Y', strtotime($row->date)) ?></td>
 				<td class="<?= $row->trx_status != 'Canceled' && $row->trx_status != 'Unpaid' ? 'text-success' : 'text-danger' ?>"><?= $row->trx_status ?></td>
 				<td>

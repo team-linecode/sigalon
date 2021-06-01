@@ -1,10 +1,5 @@
 <div class="row" style="color: #000 !important">
 	<div class="col mb-5">
-		<?php if ($this->session->flashdata('alert-success')) : ?>
-			<div class="alert alert-success">
-				<?= $this->session->flashdata('alert-success') ?>
-			</div>
-		<?php endif ?>
 		<?php if ($trx->trx_status == 'Unpaid' && $trx->trx_type == 'out') : ?>
 			<div class="alert alert-success">
 				<h4>Pesanan Berhasil Dibuat</h4>
@@ -101,14 +96,44 @@
 									<tr>
 										<td><?= $no++ ?></td>
 										<td><?= $product->product_name ?></td>
-										<td>Rp <?= number_format($product->product_price) ?></td>
-										<td><?= number_format($product->qty) ?></td>
-										<td>Rp <?= number_format($product->product_price * $product->qty) ?></td>
+										<td>Rp
+											<?php
+											if ($trx->trx_type == 'out') {
+												echo number_format($product->product_price);
+											} else {
+												echo number_format($product->supplier_price);
+											}
+											?>
+										<td>
+											<?php
+											if ($trx->trx_type == 'out') {
+												echo number_format($product->qty);
+											} else {
+												echo '1 Tanki';
+											}
+											?>
+										</td>
+										<td>Rp
+											<?php
+											if ($trx->trx_type == 'out') {
+												echo number_format($product->product_price * $product->qty);
+											} else {
+												echo number_format($product->supplier_price);
+											}
+											?>
+										</td>
 									</tr>
 								<?php endforeach ?>
 								<tr>
 									<th colspan="4" class="text-right">Total :</th>
-									<td>Rp <?= number_format($total) ?></td>
+									<td>Rp
+										<?php
+										if ($trx->trx_type == 'out') {
+											echo number_format($total);
+										} else {
+											echo number_format($product->supplier_price);
+										}
+										?>
 								</tr>
 							</table>
 						</div>

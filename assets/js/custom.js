@@ -44,62 +44,15 @@ $("#id_supplier").change(function () {
 	});
 });
 
-// get user in transaction
-$('#transaction #type').change(function () {
-	$type = $(this).val();
-
-	if ($type == 'in') {
-		$('#transaction #qty').attr('disabled', 'disabled')
-		$("#transaction #qty").attr('type', 'text').val('1 Tanki')
-
-		$("#transaction #paymentMethodWrapper").hide()
-		$("#transaction #showPaymentMethodWrapper").hide()
-		$("#transaction #deliveryMethod>option:eq(2)").prop('selected', true)
-		$("#transaction #deliveryMethod>option:eq(1)").attr('hidden', 'hidden')
-		$('#transaction #showDeliveryMethod').html($("#transaction #deliveryMethod>option:eq(2)").val())
-		$("#transaction #deliveryMethod").attr('readonly', 'on')
-	} else {
-		$("#transaction #paymentMethodWrapper").show()
-		$("#transaction #showPaymentMethodWrapper").show()
-		$("#transaction #deliveryMethod>option:eq(1)").removeAttr('hidden')
-		$("#transaction #qty").attr('type', 'text').val('')
-	}
-
-	$.ajax({
-		type: "GET",
-		url: BASE_URL + '/transaction/get_user/' + $type,
-		cache: false,
-		beforeSend: () => {
-			$('#transaction #user').attr('disabled', 'disabled')
-			$('#transaction #user').html(`<option>Sedang mengambil data...</option>`)
-		},
-		dataType: 'html',
-		success: function (result) {
-			$('#transaction #product>option:eq(0)').prop('selected', true)
-			$('#transaction #product').attr('disabled', 'disabled')
-
-			if ($type == 'out') {
-				$('#transaction #qty').attr('disabled', 'disabled').val('')
-			}
-
-			$('#transaction #productDetail').html('-')
-			$('#transaction #showQty').html(0)
-			$('#transaction #total').html(0)
-
-			$('#transaction #user').removeAttr('disabled')
-			$('#transaction #user').html(result)
-		}
-	})
-})
-
 // Get products
-$('#transaction #user').change(function () {
-	$type = $("#transaction #type").val();
-	$userId = $("#transaction #user").val();
+$('#transaction #supplier').change(function () {
+	$supplier_id = $("#transaction #supplier").val();
+
+	console.log($supplier_id);
 
 	$.ajax({
 		type: "GET",
-		url: BASE_URL + '/transaction/get_supplier_product/' + $userId + '/' + $type,
+		url: BASE_URL + '/transaction/get_supplier_product/' + $supplier_id,
 		cache: false,
 		beforeSend: () => {
 			$('#transaction #product').attr('disabled', 'disabled')
@@ -116,7 +69,6 @@ $('#transaction #user').change(function () {
 // Get detail product in transaction
 $('#transaction #product').change(function () {
 	$val = $(this).val();
-	$type = $("#transaction #type").val();
 
 	$.ajax({
 		type: "GET",
@@ -124,12 +76,10 @@ $('#transaction #product').change(function () {
 		cache: false,
 		dataType: 'json',
 		success: function (result) {
-			if ($type == 'in') {
-				$("#transaction #showQty").html(
-					result.liter + ` Liter => ` + result.supplier_stock + ` Galon`
-				)
-				$("#transaction #total").html(result.supplier_price)
-			}
+			$("#transaction #showQty").html(result.liter + ` Liter -> ` + result.supplier_stock + ` Galon`)
+
+			$("#transaction #total").html(result.supplier_price)
+
 			$('#transaction #productDetail').html(`
 				Nama : ` + result.product_name + `<br>
 				Supplier : ` + result.supplier_name + `<br>
@@ -137,10 +87,6 @@ $('#transaction #product').change(function () {
 				Stok tersisa : ` + result.product_stock + `<br>
 				<img src="` + BASE_URL + `assets/img/product/` + result.image + `" class="img-80">
 			`)
-			if ($type == 'out') {
-				$("#transaction #qty").attr('max', result.stock)
-				$("#transaction #qty").removeAttr('disabled')
-			}
 		}
 	})
 })
@@ -166,28 +112,6 @@ $('#transaction #paymentMethod').change(function () {
 					Metode : ` + result.name + `
 				`)
 			}
-		}
-	})
-})
-
-// Calculate transaction price
-$('#transaction #qty').keyup(function () {
-	$val = $(this).val();
-	$productId = $('#transaction #product').val();
-
-	if ($val == '') {
-		$('#transaction #showQty').html(0)
-	} else {
-		$('#transaction #showQty').html($val)
-	}
-
-	$.ajax({
-		type: "GET",
-		url: BASE_URL + '/transaction/calculate_price/' + $productId + '/' + $val,
-		cache: false,
-		dataType: 'json',
-		success: function (result) {
-			$("#transaction #total").html(result)
 		}
 	})
 })

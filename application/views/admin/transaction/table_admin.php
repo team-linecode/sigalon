@@ -19,21 +19,23 @@
 				<td>#<?= $row->no_invoice ?></td>
 				<td>
 					<?= $row->user_name ?? $row->contact ?><br>
-					<small class="text-primary"><?= $row->phone ?? $row->supplier_phone ?></small>
+					<small class="text-primary"><?= $row->user_phone ?? $row->supplier_phone ?></small>
 				</td>
-				<td>
+				<td class="text-center">
 					<?= $this->Transaction->products($row->trx_id)->num_rows(); ?><br>
 				</td>
 				<td>
-					<?php
-					$total_price = 0;
-					foreach ($this->Transaction->products($row->trx_id)->result() as $product) {
-						$total_price += ($product->product_price * $product->qty);
-					}
-					?>
-					Rp <?= number_format($total_price); ?>
+					<?php if ($row->trx_type == 'out') : ?>
+						<?php $total_price = 0;
+						foreach ($this->Transaction->products($row->trx_id)->result() as $product) {
+							$total_price += ($product->product_price * $product->qty);
+						} ?>
+						Rp <?= number_format($total_price); ?>
+					<?php else : ?>
+						Rp <?= number_format($row->supplier_price); ?>
+					<?php endif ?>
 				</td>
-				<td><?= date('d/m/Y H:i', strtotime($row->date)) ?></td>
+				<td><?= date('d/m/y H:i', strtotime($row->date)) ?></td>
 				<td class="<?= $row->trx_type == 'in' ? 'text-success' : 'text-danger' ?>"><?= strtoupper($row->trx_type) ?></td>
 				<td>
 					<a href="<?= base_url('transaction/invoice/' . $row->no_invoice) ?>" class="btn btn-primary btn-sm" title="Lihat Invoice"><i class="fas fa-file-alt"></i></a>

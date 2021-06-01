@@ -77,6 +77,12 @@
 					</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('transaction') ?>">
+						<i class="fas fa-fw fa-cash-register"></i>
+						<span>Transaksi</span>
+					</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('payment_method') ?>">
 						<i class="fas fa-fw fa-dollar-sign"></i>
 						<span>Metode Pembayaran</span>
@@ -86,12 +92,6 @@
 					<a class="nav-link" href="<?= base_url('site') ?>">
 						<i class="fas fa-fw fa-globe"></i>
 						<span>Pengaturan Web</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<?= base_url('transaction') ?>">
-						<i class="fas fa-fw fa-cash-register"></i>
-						<span>Transaksi</span>
 					</a>
 				</li>
 			<?php else : ?>
@@ -115,14 +115,8 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('order') ?>">
-						<i class="fas fa-fw fa-shopping-cart"></i>
-						<span>Pesanan Saya</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<?= base_url('order/create') ?>">
-						<i class="fas fa-fw fa-plus"></i>
-						<span>Buat Pesanan</span>
+						<i class="fas fa-fw fa-file-alt"></i>
+						<span>Transaksi</span>
 					</a>
 				</li>
 			<?php endif ?>
