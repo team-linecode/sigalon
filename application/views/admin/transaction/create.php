@@ -6,12 +6,18 @@
 					<div class="col-lg-4 border-right">
 						<form action="<?= base_url('transaction/create') ?>" method="POST">
 							<div class="form-group">
-								<label>Supplier</label>
-								<select class="custom-select" name="supplier" id="supplier">
-									<option value="" hidden>Pilih Supplier</option>
-									<?php foreach ($suppliers as $supplier) : ?>
-										<option value="<?= $supplier->id ?>"><?= $supplier->name ?></option>
-									<?php endforeach ?>
+								<label>Tipe</label>
+								<select class="custom-select" name="type" id="type">
+									<option value="" hidden>Pilih Tipe</option>
+									<option value="in">Barang Masuk</option>
+									<option value="out">Barang Keluar</option>
+								</select>
+								<?= form_error('type', '<small class="text-danger">', '</small>'); ?>
+							</div>
+							<div class="form-group">
+								<label>User</label>
+								<select class="custom-select" name="user" id="user" disabled>
+									<option value="" hidden>Pilih User</option>
 								</select>
 								<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
 							</div>
@@ -21,6 +27,11 @@
 									<option value="" hidden>Pilih Produk</option>
 								</select>
 								<?= form_error('name', '<small class="text-danger">', '</small>'); ?>
+							</div>
+							<div class="form-group">
+								<label>Jumlah</label>
+								<input type="number" class="form-control" name="qty" id="qty" value="<?= set_value('qty') ?>" disabled>
+								<?= form_error('qty', '<small class="text-danger">', '</small>'); ?>
 							</div>
 							<div class="form-group" id="paymentMethodWrapper">
 								<label>Metode Pembayaran</label>
@@ -36,6 +47,7 @@
 								<label>Metode Pengiriman</label>
 								<select class="custom-select" name="delivery_method" id="deliveryMethod">
 									<option value="" hidden>Pilih Metode Pengiriman</option>
+									<option value="Di Jemput">Di Jemput</option>
 									<option value="Di Antar">Di Antar</option>
 								</select>
 								<?= form_error('delivery_method', '<small class="text-danger">', '</small>'); ?>

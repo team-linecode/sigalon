@@ -26,10 +26,10 @@ class Transaction extends CI_Controller
 	{
 		guard('Admin');
 
-		$this->form_validation->set_rules('supplier', 'Supplier', 'required');
+		$this->form_validation->set_rules('type', 'Type', 'required');
+		$this->form_validation->set_rules('user', 'User', 'required');
 		$this->form_validation->set_rules('product', 'Product', 'required');
 		$this->form_validation->set_rules('delivery_method', 'Delivery Method', 'required');
-
 		if ($this->input->post('type') == 'out') {
 			$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 			$this->form_validation->set_rules('qty', 'Quantity', 'required');
@@ -39,43 +39,54 @@ class Transaction extends CI_Controller
 			$data['title'] = 'Transaksi Baru';
 			$data['transactions'] = $this->Transaction->get_where()->result();
 			$data['payment_methods'] = $this->db->get('payment_methods')->result();
-			$data['suppliers'] = $this->db->get('suppliers')->result();
+			$data['customers'] = $this->db->get_where('users', ['level' => 'Customer'])->result();
 
 			$this->load->view('layout/admin/header', $data);
 			$this->load->view('admin/transaction/create', $data);
 			$this->load->view('layout/admin/footer');
 		} else {
 			$id_product = $this->input->post('product');
-
-			$product = $this->db->query("SELECT *,
-			p.price as p_price,
-			spl.price as spl_price
-			FROM products p
-			JOIN suppliers spl
-			ON p.id_supplier = spl.id
-			WHERE p.id='$id_product'")->row();
-
+			$product = $this->db->query("SELECT *, p.price as p_price, spl.price as spl_price FROM products p JOIN suppliers spl ON p.id_supplier=spl.id WHERE p.id='$id_product'")->row();
 			$no_invoice = rand(111111, 999999);
+			$qty = $this->input->post('qty');
 			$status = 'Unpaid';
+			$type = $this->input->post('type');
 
 			$data = [
 				'no_invoice' => $no_invoice,
-				'id_supplier' => $this->input->post('supplier'),
 				'id_payment_method' => empty($this->input->post('payment_method')) ? null : $this->input->post('payment_method'),
 				'date' => date('Y-m-d H:i:s'),
 				'delivery_method' => $this->input->post('delivery_method'),
 				'status' => $status,
-				'type' => 'in'
+				'type' => $type
 			];
+
+			if ($type == 'in') {
+				$data['id_supplier'] = $this->input->post('user');
+			} else {
+				$data['id_user'] = $this->input->post('user');
+			}
 
 			$this->db->insert('transactions', $data);
 
 			$trx_id = $this->db->insert_id();
-			$this->db->insert('transaction_products', [
-				'id_transaction' => $trx_id,
-				'id_product' => $id_product,
-				'price' => $product->spl_price
-			]);
+
+			if ($type == 'in') {
+				$this->db->insert('transaction_products', [
+					'id_transaction' => $trx_id,
+					'id_product' => $id_product,
+					'price' => $product->p_price,
+				]);
+			} else {
+				$this->db->insert('transaction_products', [
+					'id_transaction' => $trx_id,
+					'id_product' => $id_product,
+					'price' => $product->spl_price,
+					'qty' => $qty,
+					'total' => $total = ($product->p_price * $qty),
+					'income' => ($total - $product->unit_price * $qty)
+				]);
+			}
 
 			$this->session->set_flashdata('success', 'Transaksi berhasil dibuat');
 			redirect('transaction');
@@ -91,12 +102,13 @@ class Transaction extends CI_Controller
 		if ($status == 'Paid') {
 			foreach ($this->Transaction->products($trx->trx_id)->result() as $product) {
 				$p = $this->db->get_where('products', ['id' => $product->product_id])->row();
-				if ($trx->trx_type == 'out') {
-					$stock = ($p->stock - $product->qty);
+
+				if ($trx->trx_type == 'in') {
+					$stock = ($p->stock + $product->supplier_stock);
 				} else {
-					$stock = ($p->stock + $trx->supplier_stock);
+					$stock = ($p->stock - $product->qty);
 				}
-				
+
 				$this->db->set('stock', $stock);
 				$this->db->where('id', $product->product_id);
 				$this->db->update('products');
@@ -184,18 +196,38 @@ class Transaction extends CI_Controller
 		echo $attr;
 	}
 
-	public function get_supplier_product($id_supplier)
+	public function get_supplier_product($id_supplier, $type)
 	{
 		guard('Admin');
-
-		$products = $this->db->get_where('products', ['id_supplier' => $id_supplier])->result();
+		if ($type == 'in') {
+			$products = $this->db->get_where('products', ['id_supplier' => $id_supplier])->result();
+		} else {
+			$products = $this->db->query("SELECT *, suppliers.name as supplier_name, products.id as product_id, products.name as product_name, products.stock as product_stock FROM products JOIN suppliers ON products.id_supplier = suppliers.id")->result();
+			$suppliers = $this->db->get('suppliers')->result();
+		}
 
 		$attr = '<option hidden>Pilih Produk</option>';
 		if (count($products) < 1) {
 			$attr .= '<option disabled>Tidak ada data.</option>';
 		} else {
-			foreach ($products as $product) {
-				$attr .= '<option value="' . $product->id . '">' . $product->name . '</option>';
+			if ($type == 'in') {
+				foreach ($products as $product) {
+					$attr .= '<option value="' . $product->id . '">' . $product->name . '</option>';
+				}
+			} else {
+				foreach ($suppliers as $supplier) {
+					$attr .= '<optgroup label="' . $supplier->name . '">';
+					foreach ($products as $product) {
+						if ($supplier->id == $product->id_supplier) {
+							if ($product->product_stock > 0) {
+								$attr .= '<option value="' . $product->product_id . '">' . $product->product_name . '</option>';
+							} else {
+								$attr .= '<option value="" disabled>' . $product->product_name . ' [Stok Habis]</option>';
+							}
+						}
+					}
+					$attr .= '</optgroup>';
+				}
 			}
 		}
 
