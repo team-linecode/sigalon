@@ -40,7 +40,7 @@
 			</div>
 		</div>
 		<div class="col-3 col-sm-4">
-			<h5 class="font-weight-bold text-right mb-4">Laporan Penjualan</h5>
+			<h5 class="font-weight-bold text-right mb-4">Laporan Penjualan Transaksi</h5>
 			<table width="100%">
 				<tr>
 					<th>Periode</th>

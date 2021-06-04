@@ -83,6 +83,12 @@
 					</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link" href="<?= base_url('report') ?>">
+						<i class="fas fa-fw fa-file"></i>
+						<span>Laporan</span>
+					</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('payment_method') ?>">
 						<i class="fas fa-fw fa-dollar-sign"></i>
 						<span>Metode Pembayaran</span>

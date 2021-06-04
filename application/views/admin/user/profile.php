@@ -30,7 +30,7 @@
 					</div>
 
 					<div class="d-flex justify-content-end">
-						<a href="<?= base_url('user') ?>" class="btn btn-sm btn-danger mr-1"><i class="fas fa-times"></i> Batal</a>
+						<a href="<?= base_url('product/list') ?>" class="btn btn-sm btn-danger mr-1"><i class="fas fa-times"></i> Batal</a>
 						<button class="btn btn-sm btn-primary"><i class="fas fa-save"></i> Simpan</button>
 					</div>
 				</form>
