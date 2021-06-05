@@ -39,7 +39,6 @@ class Transaction extends CI_Controller
 			$data['title'] = 'Transaksi Baru';
 			$data['transactions'] = $this->Transaction->get_where()->result();
 			$data['payment_methods'] = $this->db->get('payment_methods')->result();
-			$data['customers'] = $this->db->get_where('users', ['level' => 'Customer'])->result();
 
 			$this->load->view('layout/admin/header', $data);
 			$this->load->view('admin/transaction/create', $data);
@@ -172,10 +171,13 @@ class Transaction extends CI_Controller
 		guard('Admin');
 		if ($type == 'in') {
 			$type = 'Supplier';
-			$users = $this->db->get('suppliers')->result();
+			$users = $this->db->get_where('suppliers', ['deleted_at' => null])->result();
 		} else if ($type == 'out') {
 			$type = 'Customer';
-			$users = $this->db->get_where('users', ['level !=' => 'admin'])->result();
+			$users = $this->db->get_where('users', [
+				'level !=' => 'admin',
+				'deleted_at' => null
+			])->result();
 		}
 
 		$attr = '<option hidden>Pilih ' . $type . '</option>';

@@ -22,7 +22,7 @@ class User extends CI_Controller
 
 		if ($this->form_validation->run() == FALSE) {
 			$data['title'] = 'Users';
-			$data['users'] = $this->db->get('users')->result();
+			$data['users'] = $this->db->get_where('users', ['deleted_at' => null])->result();
 			$this->load->view('layout/admin/header', $data);
 			$this->load->view('admin/user/index', $data);
 			$this->load->view('layout/admin/footer');
@@ -96,8 +96,10 @@ class User extends CI_Controller
 	{
 		guard('Admin');
 
+		$this->db->set('deleted_at', date('Y-m-d H:i:s'));
 		$this->db->where('id', $id);
-		$this->db->delete('users');
+		$this->db->update('users');
+
 		$this->session->set_flashdata('success', 'Data User berhasil dihapus');
 		redirect('user');
 	}

@@ -29,7 +29,8 @@ class Supplier extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Supplier';
-            $data['suppliers'] = $this->db->get('suppliers')->result();
+            $data['suppliers'] = $this->db->get_where('suppliers', ['deleted_at' => null])->result();
+
             $this->load->view('layout/admin/header', $data);
             $this->load->view('admin/supplier/index');
             $this->load->view('layout/admin/footer');
@@ -99,10 +100,20 @@ class Supplier extends CI_Controller
     }
 
     public function delete($id)
-    {
+    {        
+        $this->db->set('deleted_at', date('Y-m-d H:i:s'));
         $this->db->where('id', $id);
-        $this->db->delete('suppliers');
-        $this->session->set_flashdata('success', 'Data Barang berhasil dihapus');
+        $this->db->update('suppliers');
+
+        $supplier_products = $this->db->get_where('products', ['id_supplier' => $id])->result();
+
+        foreach ($supplier_products as $sp) {
+            $this->db->set('deleted_at', date('Y-m-d H:i:s'));
+            $this->db->where('id', $sp->id);
+            $this->db->update('products');
+        }
+
+        $this->session->set_flashdata('success', 'Data Supplier berhasil dihapus');
         redirect('supplier/index');
     }
 }

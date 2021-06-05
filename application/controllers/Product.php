@@ -23,8 +23,17 @@ class Product extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Barang';
-            $data['products'] = $this->db->query('SELECT *, suppliers.name as supplier_name, products.name as product_name, products.price as product_price, products.id as product_id, products.stock as product_stock FROM products JOIN suppliers ON products.id_supplier = suppliers.id')->result();
+            $data['products'] = $this->db->query("SELECT *,
+            suppliers.name as supplier_name,
+            products.name as product_name,
+            products.price as product_price,
+            products.id as product_id,
+            products.stock as product_stock
+            FROM products
+            JOIN suppliers ON products.id_supplier = suppliers.id
+            WHERE products.deleted_at IS NULL")->result();
             $data['suppliers'] = $this->db->get('suppliers')->result();
+
             $this->load->view('layout/admin/header', $data);
             $this->load->view('admin/product/index');
             $this->load->view('layout/admin/footer');
@@ -116,8 +125,10 @@ class Product extends CI_Controller
     {
         guard('Admin');
 
+        $this->db->set('deleted_at', date('Y-m-d H:i:s'));
         $this->db->where('id', $id);
-        $this->db->delete('products');
+        $this->db->update('products');
+
         $this->session->set_flashdata('success', 'Data Barang berhasil dihapus');
         redirect('product');
     }
@@ -138,9 +149,10 @@ class Product extends CI_Controller
     public function list()
     {
         guard('Customer');
-        
+
         $data['title'] = 'Produk';
-        $data['products'] = $this->db->get('products')->result();
+        $data['products'] = $this->db->get_where('products', ['deleted_at' => null])->result();
+
         $this->load->view('layout/admin/header', $data);
         $this->load->view('admin/product/list');
         $this->load->view('layout/admin/footer');
