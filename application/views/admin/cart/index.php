@@ -9,7 +9,7 @@
 								<th>#</th>
 								<th colspan="2">Produk</th>
 								<th>Harga</th>
-								<th>Qty</th>
+								<th>Jumlah</th>
 								<th>Total</th>
 								<th>Opsi</th>
 							</tr>
